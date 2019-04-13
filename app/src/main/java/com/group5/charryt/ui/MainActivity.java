@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationMenu = navigationView.getMenu();
+
         toolbar = findViewById(R.id.toolbar);
         fragmentHolder = findViewById(R.id.fragmentHolder);
 
