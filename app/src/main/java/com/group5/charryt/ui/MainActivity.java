@@ -1,5 +1,6 @@
 package com.group5.charryt.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Menu navigationMenu;
     private Toolbar toolbar;
+    private FrameLayout fragmentHolder;
+    private MenuItem dashboardMenuItem;
 
     private MenuItem lastSelectedNavMenuItem = null;
 
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationMenu = navigationView.getMenu();
         toolbar = findViewById(R.id.toolbar);
+        fragmentHolder = findViewById(R.id.fragmentHolder);
 
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -42,13 +47,13 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         toolbar.setTitle("Dashboard");
-        MenuItem dashboardMenuItem = navigationMenu.add("Dashboard");
+        dashboardMenuItem = navigationMenu.add("Dashboard");
         dashboardMenuItem.setChecked(true);
         lastSelectedNavMenuItem = dashboardMenuItem;
 
         // Add items to nav menu here. Remember to actually implement them down below.
-        navigationMenu.add("Add donor listing");
-        navigationMenu.add("Add charity listing");
+        navigationMenu.add("Add donation listing");
+        navigationMenu.add("Add request listing");
         navigationMenu.add("History");
         navigationMenu.add("Login");
         navigationMenu.add("Register");
@@ -80,8 +85,19 @@ public class MainActivity extends AppCompatActivity {
                             case "Dashboard":
                                 break;
                             case "Login":
+                                go_to_activity(LoginActivity.class);
                                 break;
                             case "Register":
+                                go_to_activity(RegisterActivity.class);
+                                break;
+                            case "Add donation listing":
+                                go_to_activity(AddDonationListingActivity.class);
+                                break;
+                            case "Add request listing":
+                                go_to_activity(AddRequestListingActivity.class);
+                                break;
+                            case "History":
+
                                 break;
                             default:
                                 String error = "ERROR: No function implemented for " + itemName;
@@ -94,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
                 });
 
 
+    }
+
+    private void go_to_activity(Class activityClass) {
+        Intent startNewActivityOpen = new Intent(MainActivity.this, activityClass);
+        startActivityForResult(startNewActivityOpen, 0);
+        // Highlight dashboard in navbar again
+        lastSelectedNavMenuItem.setChecked(false);
+        dashboardMenuItem.setChecked(true);
+        lastSelectedNavMenuItem = dashboardMenuItem;
     }
 
     @Override
