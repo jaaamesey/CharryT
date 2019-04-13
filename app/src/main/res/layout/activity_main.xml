@@ -58,7 +58,9 @@
             android:paddingRight="12dp"
             android:text="@string/app_name"
             android:textColor="@color/colorWhite"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:textStyle="italic"
+            app:fontFamily="sans-serif-light" />
 
     </android.support.design.widget.NavigationView>
 
