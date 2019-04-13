@@ -1,4 +1,4 @@
-package com.group5.charryt;
+package com.group5.charryt.ui;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.group5.charryt.R;
+import com.group5.charryt.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,11 +46,16 @@ public class MainActivity extends AppCompatActivity {
         dashboardMenuItem.setChecked(true);
         lastSelectedNavMenuItem = dashboardMenuItem;
 
-        // Add items to nav menu here.
+        // Add items to nav menu here. Remember to actually implement them down below.
+        navigationMenu.add("Add donor listing");
+        navigationMenu.add("Add charity listing");
+        navigationMenu.add("History");
         navigationMenu.add("Login");
         navigationMenu.add("Register");
+        navigationMenu.add("Fortnite");
 
-        // Link functions to nav menu items here
+        // Link functions to nav menu items in the switch/case below.
+        // Remember that this is case-sensitive.
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -76,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
                             case "Register":
                                 break;
                             default:
-                                System.out.println("ERROR: No function implemented for " + itemName);
+                                String error = "ERROR: No function implemented for " + itemName;
+                                showDialog(error);
+                                System.out.println(error);
                         }
 
                         return true;
@@ -113,6 +123,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Created to avoid shenanigans with inner classes
+    public void showDialog(String str) {
+        Utils.showDialog(str, this);
     }
 
 }

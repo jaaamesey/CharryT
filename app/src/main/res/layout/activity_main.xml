@@ -26,6 +26,12 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+        <fragment
+            android:id="@+id/fragment"
+            android:name="com.group5.charryt.ui.DashboardFragment"
+            android:layout_width="match_parent"
+            android:layout_height="690dp" />
+
     </android.support.design.widget.AppBarLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
