@@ -24,24 +24,20 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:title="Dashboard"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
         <FrameLayout
             android:id="@+id/fragmentHolder"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.group5.charryt.ui.DashboardFragment"
-                android:layout_width="match_parent"
-                android:layout_height="690dp" />
-        </FrameLayout>
+            android:layout_height="match_parent" />
 
     </android.support.design.widget.AppBarLayout>
 
     <!-- Container for contents of drawer - use NavigationView to make configuration easier -->
+
     <android.support.design.widget.NavigationView
+
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

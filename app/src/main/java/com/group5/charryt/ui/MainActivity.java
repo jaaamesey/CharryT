@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem dashboardMenuItem;
 
     private MenuItem lastSelectedNavMenuItem = null;
+    private Fragment currentFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +50,9 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        toolbar.setTitle("Dashboard");
+        // Load dashboard on startup
+        swap_fragment(new DashboardFragment());
+
         dashboardMenuItem = navigationMenu.add("Dashboard");
         dashboardMenuItem.setChecked(true);
         lastSelectedNavMenuItem = dashboardMenuItem;
@@ -67,15 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         System.out.println("Pressed " + menuItem);
 
-                        // remove highlights from previous item
-                        if (lastSelectedNavMenuItem != null)
-                            lastSelectedNavMenuItem.setChecked(false);
-
-                        // set item as selected to persist highlight
-                        menuItem.setChecked(true);
-                        lastSelectedNavMenuItem = menuItem;
-
-                        // close drawer when item is tapped
+                        // Close drawer when item is tapped
                         drawerLayout.closeDrawers();
 
                         // Add code here to update the UI based on the item selected
@@ -83,6 +81,12 @@ public class MainActivity extends AppCompatActivity {
                         String itemName = menuItem.getTitle().toString();
                         switch (itemName) {
                             case "Dashboard":
+                                swap_fragment(new DashboardFragment());
+                                setChecked(menuItem);
+                                break;
+                            case "History":
+                                swap_fragment(new HistoryFragment());
+                                setChecked(menuItem);
                                 break;
                             case "Login":
                                 go_to_activity(LoginActivity.class);
@@ -96,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
                             case "Add request listing":
                                 go_to_activity(AddRequestListingActivity.class);
                                 break;
-                            case "History":
-
-                                break;
                             default:
                                 String error = "ERROR: No function implemented for " + itemName;
                                 showDialog(error);
@@ -108,17 +109,31 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
-
     }
 
     private void go_to_activity(Class activityClass) {
         Intent startNewActivityOpen = new Intent(MainActivity.this, activityClass);
         startActivityForResult(startNewActivityOpen, 0);
-        // Highlight dashboard in navbar again
-        lastSelectedNavMenuItem.setChecked(false);
-        dashboardMenuItem.setChecked(true);
-        lastSelectedNavMenuItem = dashboardMenuItem;
+    }
+
+    private void swap_fragment(Fragment fragment) {
+        // Start up weird fragment manager nonsense
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // Remove previous fragment
+        if (currentFragment != null)
+            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+
+        // Murder "back stack" so shit doesn't overlap
+        // (why did this take me 45 minutes to figure out and why is this weird "back stack" thing
+        // not cleared in the first place what the actual hell google what is wrong with you)
+        fragmentManager.popBackStack();
+        transaction.addToBackStack(null);
+
+        // Add new fragment
+        transaction.add(R.id.fragmentHolder, fragment);
+
+        transaction.commit();
     }
 
     @Override
@@ -148,6 +163,27 @@ public class MainActivity extends AppCompatActivity {
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Make the back button minimise the app on the main page like most apps
+        // (this also needs to be overridden anyway to prevent the fragments from getting destroyed)
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
+    private void setChecked(MenuItem menuItem) {
+        if (lastSelectedNavMenuItem != null)
+            lastSelectedNavMenuItem.setChecked(false);
+        menuItem.setChecked(true);
+        lastSelectedNavMenuItem = menuItem;
+    }
+
+    public void setToolbarText(String str) {
+        toolbar.setTitle(str);
     }
 
     // Created to avoid shenanigans with inner classes

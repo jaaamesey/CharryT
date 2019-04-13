@@ -18,5 +18,12 @@ public class DashboardFragment extends Fragment {
         return inflater.inflate(R.layout.dashboard_fragment, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        MainActivity main = (MainActivity) getActivity();
+        assert main != null;
+        main.setToolbarText("Dashboard");
+    }
+
 
 }
