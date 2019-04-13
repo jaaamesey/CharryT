@@ -1,6 +1,7 @@
 package com.group5.charryt;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,9 +14,12 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity {
 
     // UI components
-    private NavigationView navDrawer;
+    private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private Menu navigationMenu;
     private Toolbar toolbar;
+
+    private MenuItem lastSelectedNavMenuItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,20 +27,62 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Instantiate references to UI components
-        navDrawer = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        navigationMenu = navigationView.getMenu();
         toolbar = findViewById(R.id.toolbar);
 
-
-        toolbar.setTitle("Dashboard");
-
-        //navDrawer.addView(new Button(getBaseContext()));
         setSupportActionBar(toolbar);
-
         ActionBar actionbar = getSupportActionBar();
         assert actionbar != null;
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        toolbar.setTitle("Dashboard");
+        MenuItem dashboardMenuItem = navigationMenu.add("Dashboard");
+        dashboardMenuItem.setChecked(true);
+        lastSelectedNavMenuItem = dashboardMenuItem;
+
+        // Add items to nav menu here.
+        navigationMenu.add("Login");
+        navigationMenu.add("Register");
+
+        // Link functions to nav menu items here
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                        System.out.println("Pressed " + menuItem);
+
+                        // remove highlights from previous item
+                        if (lastSelectedNavMenuItem != null)
+                            lastSelectedNavMenuItem.setChecked(false);
+
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        lastSelectedNavMenuItem = menuItem;
+
+                        // close drawer when item is tapped
+                        drawerLayout.closeDrawers();
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+                        String itemName = menuItem.getTitle().toString();
+                        switch (itemName) {
+                            case "Dashboard":
+                                break;
+                            case "Login":
+                                break;
+                            case "Register":
+                                break;
+                            default:
+                                System.out.println("ERROR: No function implemented for " + itemName);
+                        }
+
+                        return true;
+                    }
+                });
+
 
     }
 
@@ -54,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        System.out.println("Pressed " + item);
         // Break is not needed for this switch case because return is used.
         switch (id) {
             case R.id.action_settings:
@@ -67,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
 
 //YEET TEST COMMENT - VONG
