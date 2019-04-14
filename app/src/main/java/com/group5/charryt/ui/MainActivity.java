@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
                                 swapFragment(new HistoryFragment());
                                 setChecked(menuItem);
                                 break;
+                            case "View bookings":
+                                swapFragment(new ViewBookingsFragment());
+                                setChecked(menuItem);
+                                break;
                             case "Login":
                                 goToActivity(LoginActivity.class);
                                 break;
@@ -105,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "Create booking":
                                 goToActivity(CreateBookingActivity.class);
-                                break;
-                            case "View bookings":
-                                swapFragment(new ViewBookingsFragment());
                                 break;
                             default:
                                 String error = "ERROR: No function implemented for " + itemName;
