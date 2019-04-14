@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         // Load dashboard on startup
-        swap_fragment(new DashboardFragment());
+        swapFragment(new DashboardFragment());
 
         dashboardMenuItem = navigationMenu.add("Dashboard");
         dashboardMenuItem.setChecked(true);
@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         navigationMenu.add("Add donation listing");
         navigationMenu.add("Add request listing");
         navigationMenu.add("History");
+        navigationMenu.add("Create booking");
+        navigationMenu.add("View bookings");
         navigationMenu.add("Login");
         navigationMenu.add("Register");
         navigationMenu.add("Fortnite");
@@ -82,24 +84,30 @@ public class MainActivity extends AppCompatActivity {
                         String itemName = menuItem.getTitle().toString();
                         switch (itemName) {
                             case "Dashboard":
-                                swap_fragment(new DashboardFragment());
+                                swapFragment(new DashboardFragment());
                                 setChecked(menuItem);
                                 break;
                             case "History":
-                                swap_fragment(new HistoryFragment());
+                                swapFragment(new HistoryFragment());
                                 setChecked(menuItem);
                                 break;
                             case "Login":
-                                go_to_activity(LoginActivity.class);
+                                goToActivity(LoginActivity.class);
                                 break;
                             case "Register":
-                                go_to_activity(RegisterActivity.class);
+                                goToActivity(RegisterActivity.class);
                                 break;
                             case "Add donation listing":
-                                go_to_activity(AddDonationListingActivity.class);
+                                goToActivity(AddDonationListingActivity.class);
                                 break;
                             case "Add request listing":
-                                go_to_activity(AddRequestListingActivity.class);
+                                goToActivity(AddRequestListingActivity.class);
+                                break;
+                            case "Create booking":
+                                goToActivity(CreateBookingActivity.class);
+                                break;
+                            case "View bookings":
+                                swapFragment(new ViewBookingsFragment());
                                 break;
                             default:
                                 String error = "ERROR: No function implemented for " + itemName;
@@ -112,12 +120,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void go_to_activity(Class activityClass) {
+    private void goToActivity(Class activityClass) {
         Intent startNewActivityOpen = new Intent(MainActivity.this, activityClass);
         startActivityForResult(startNewActivityOpen, 0);
     }
 
-    private void swap_fragment(Fragment fragment) {
+    private void swapFragment(Fragment fragment) {
         // Start up weird fragment manager nonsense
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -135,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         transaction.add(R.id.fragmentHolder, fragment);
 
         transaction.commit();
+        currentFragment = fragment;
     }
 
     @Override
@@ -168,8 +177,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Make the back button minimise the app on the main page like most apps
+        // Make the back button minimise the app on the main page like most apps if there's nothing to go back to
         // (this also needs to be overridden anyway to prevent the fragments from getting destroyed)
+
+        // If not on the dashboard, go to it instead of minimising the app.
+        if (!(currentFragment instanceof DashboardFragment) && currentFragment != null) {
+            swapFragment(new DashboardFragment());
+            return;
+        }
+
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

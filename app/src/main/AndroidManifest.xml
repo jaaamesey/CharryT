@@ -45,6 +45,7 @@
         </activity>
         <activity android:name=".ui.AddDonationListingActivity" />
         <activity android:name=".ui.AddRequestListingActivity" />
+        <activity android:name=".ui.CreateBookingActivity" />
     </application>
 
 </manifest>
