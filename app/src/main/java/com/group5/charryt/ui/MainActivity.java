@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -121,12 +122,12 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void goToActivity(Class activityClass) {
+    public void goToActivity(Class activityClass) {
         Intent startNewActivityOpen = new Intent(MainActivity.this, activityClass);
         startActivityForResult(startNewActivityOpen, 0);
     }
 
-    private void swapFragment(Fragment fragment) {
+    public void swapFragment(Fragment fragment) {
         // Start up weird fragment manager nonsense
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
