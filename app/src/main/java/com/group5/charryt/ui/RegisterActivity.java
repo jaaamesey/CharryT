@@ -9,8 +9,8 @@ import android.widget.EditText;
 import com.group5.charryt.R;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button registerBtn;
-    EditText firstNameEt, lastNameEt, emailEt, passwordEt, passwordConfirmEt;
+    private Button registerBtn;
+    private EditText firstNameEt, lastNameEt, emailEt, passwordEt, passwordConfirmEt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
