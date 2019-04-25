@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "540187517136",
+    "firebase_url": "https://studio-1a-firebase.firebaseio.com",
+    "project_id": "studio-1a-firebase",
+    "storage_bucket": "studio-1a-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540187517136:android:731aa68a0a98b5ce",
+        "android_client_info": {
+          "package_name": "com.group5.charryt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540187517136-n5pch1l444gfr0nj6j5o0qfn0471ofhq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb8QtyzAnNPPW6ql8h82mXIVQqyVvyjNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540187517136-n5pch1l444gfr0nj6j5o0qfn0471ofhq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
