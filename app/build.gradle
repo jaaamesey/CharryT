@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.group5.charryt"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -38,6 +38,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.8'
     implementation 'com.google.firebase:firebase-auth:16.2.1'
     implementation 'com.google.firebase:firebase-firestore:18.2.0'
+    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
 }
 apply plugin: 'com.google.gms.google-services'
