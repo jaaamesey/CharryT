@@ -29,6 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private boolean success;
+    private String feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +48,14 @@ public class RegisterActivity extends AppCompatActivity {
                     if(!pw.equals(pwConf)) {
                         feedbackTxt.setTextColor(Color.RED);
                         feedbackTxt.setText("Passwords do not match.");
-                    }
-
-                    if(createAccount(email, pw)) {
-                        feedbackTxt.setTextColor(Color.GREEN);
-                        feedbackTxt.setText("Account created successfully!");
+                    } else {
+                        if(createAccount(email, pw)) {
+                            feedbackTxt.setTextColor(Color.GREEN);
+                            feedbackTxt.setText("Account created successfully!");
+                        } else {
+                            feedbackTxt.setTextColor(Color.RED);
+                            feedbackTxt.setText(feedback);
+                        }
                     }
                 }
             }
@@ -70,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity {
                             userData.put("firstName", firstNameEt.getText());
                             userData.put("lastName", lastNameEt.getText());
 
-                            db.collection("users").document(currentUser.getEmail())
+                            db.collection("users").document(currentUser.getUid())
                                     .set(userData)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -82,10 +86,13 @@ public class RegisterActivity extends AppCompatActivity {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             success = false;
+                                            feedback = e.getMessage();
                                         }
                                     });
                         } else {
                             success = false;
+                            Exception e = task.getException();
+                            feedback = e.getMessage();
                         }
                     }
                 });
