@@ -28,8 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private TextView feedbackTxt;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
-    private boolean success;
-    private String feedback;
+    private boolean created;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
                         feedbackTxt.setTextColor(Color.RED);
                         feedbackTxt.setText("Passwords do not match.");
                     } else {
-                        if(createAccount(email, pw)) {
-                            feedbackTxt.setTextColor(Color.GREEN);
-                            feedbackTxt.setText("Account created successfully!");
-                        } else {
-                            feedbackTxt.setTextColor(Color.RED);
-                            feedbackTxt.setText(feedback);
-                        }
+                        createAccount(email, pw);
                     }
                 }
             }
@@ -71,32 +64,34 @@ public class RegisterActivity extends AppCompatActivity {
                         if(task.isSuccessful()) {
                             FirebaseUser currentUser = mAuth.getCurrentUser();
                             Map<String, Object> userData = new HashMap<>();
-                            userData.put("firstName", firstNameEt.getText());
-                            userData.put("lastName", lastNameEt.getText());
-
+                            userData.put("firstName", firstNameEt.getText().toString());
+                            userData.put("lastName", lastNameEt.getText().toString());
                             db.collection("users").document(currentUser.getUid())
                                     .set(userData)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
-                                            success = true;
+                                            feedbackTxt.setTextColor(Color.GREEN);
+                                            feedbackTxt.setText("Account Created.");
+                                            created = true;
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
-                                            success = false;
-                                            feedback = e.getMessage();
+                                            feedbackTxt.setTextColor(Color.RED);
+                                            feedbackTxt.setText("Data Not Created.");
+                                            created = false;
                                         }
                                     });
                         } else {
-                            success = false;
-                            Exception e = task.getException();
-                            feedback = e.getMessage();
+                            feedbackTxt.setTextColor(Color.RED);
+                            feedbackTxt.setText("User Not Created.");
+                            created = false;
                         }
                     }
                 });
-        return success;
+        return created;
     }
 
     //Private procedure to initialise all textfields and button
