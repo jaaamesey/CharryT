@@ -15,12 +15,12 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.dashboard_fragment, container, false);
+        return inflater.inflate(R.layout.profile_fragment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         MainActivity main = Utils.getMainActivity(this);
-        main.setToolbarText("Dashboard");
+        main.setToolbarText("My Profile");
     }
 }
