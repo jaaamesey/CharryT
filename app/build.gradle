@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+
     }
     buildTypes {
         release {
@@ -27,6 +29,8 @@ dependencies {
     implementation "com.android.support:customtabs:$android_api"
     implementation "com.android.support:support-media-compat:$android_api"
     implementation "com.android.support:support-v4:$android_api"
+    implementation 'com.android.support:multidex:1.0.3'
+
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'

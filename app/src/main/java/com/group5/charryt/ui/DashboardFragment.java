@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.group5.charryt.R;
+import com.group5.charryt.Utils;
 
 public class DashboardFragment extends Fragment {
 
@@ -20,8 +21,7 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        MainActivity main = (MainActivity) getActivity();
-        assert main != null;
+        MainActivity main = Utils.getMainActivity(this);
         main.setToolbarText("Dashboard");
     }
 

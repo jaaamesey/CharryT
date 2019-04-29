@@ -20,7 +20,7 @@ import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static MainActivity mainActivity = null;
     // UI components
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        mainActivity = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
