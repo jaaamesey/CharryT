@@ -43,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity {
                     email = emailEt.getText().toString();
                     pw = passwordEt.getText().toString();
                     pwConf = passwordConfirmEt.getText().toString();
+                    if (email.isEmpty() || pw.isEmpty() || pwConf.isEmpty())
+                        return;
 
                     if(!pw.equals(pwConf)) {
                         feedbackTxt.setTextColor(Color.RED);
@@ -103,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEt = findViewById(R.id.passwordEt);
         passwordConfirmEt = findViewById(R.id.passwordConfirmEt);
         feedbackTxt = findViewById(R.id.feedbackTxt);
-    };
+    }
 
 
 }
