@@ -45,7 +45,6 @@ public class ListingView extends View {
         // the only way I could fix it, fight me.
         // This generates a unique ID for each item in the layout. Because of this, all UI
         // references need to be obtained BEFORE this loop.
-
         frameLayout.setId(generateViewId());
         int childCount = frameLayout.getChildCount();
 
@@ -54,7 +53,7 @@ public class ListingView extends View {
             v.setId(generateViewId());
         }
 
-        // Test image.
+        // Test image
         Drawable testImage = ContextCompat.getDrawable(getContext(), R.drawable.test);
         imageView.setImageDrawable(testImage);
         descriptionTextView.setText(listing.getDescription());

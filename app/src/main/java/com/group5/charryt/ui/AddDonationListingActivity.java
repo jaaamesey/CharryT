@@ -1,5 +1,6 @@
 package com.group5.charryt.ui;
 
+import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
@@ -31,6 +33,7 @@ public class AddDonationListingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_donation_listing);
+        final Context context = this; // Stored for inner classes
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -42,10 +45,15 @@ public class AddDonationListingActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user == null) {
+                    Utils.showDialog("Error: User not logged in", context);
+                    return;
+                }
                 String title = titleInput.getText().toString();
                 String description = descriptionInput.getText().toString();
                 if (title.isEmpty() || description.isEmpty()) {
-                    Utils.showDialog("Fields must not be empty.");
+                    Utils.showDialog("Fields must not be empty.", context);
                     return;
                 }
 
@@ -53,10 +61,20 @@ public class AddDonationListingActivity extends AppCompatActivity {
                 data.put("title", title);
                 data.put("description", description);
                 data.put("postDate", Calendar.getInstance().getTime());
-                db.collection("listings").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                data.put("owner", user);
+
+                submitButton.setEnabled(false);
+                Task<DocumentReference> postListingTask = db.collection("listings").add(data);
+                postListingTask.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        finish();
+                        if (task.isSuccessful())
+                            finish();
+                        else {
+                            submitButton.setEnabled(true);
+                            String err = String.valueOf(task.getException());
+                            Utils.showDialog("Submission error: " + err, context);
+                        }
                     }
                 });
             }
