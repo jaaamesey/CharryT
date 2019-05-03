@@ -7,8 +7,8 @@ import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.group5.charryt.R;
@@ -20,7 +20,7 @@ public class ListingView extends View {
     private TextView descriptionTextView;
     private ImageView imageView;
 
-    private FrameLayout frameLayout;
+    private LinearLayout linearLayout;
 
     private Listing listing;
 
@@ -28,7 +28,7 @@ public class ListingView extends View {
 
         super(context);
         View view = inflate(context, R.layout.listing_view, parent);
-        frameLayout = view.findViewById(R.id.frame_layout);
+        linearLayout = view.findViewById(R.id.linear_layout);
         titleTextView = view.findViewById(R.id.title_text);
         descriptionTextView = view.findViewById(R.id.description_text);
         imageView = view.findViewById(R.id.item_image_view);
@@ -45,11 +45,11 @@ public class ListingView extends View {
         // the only way I could fix it, fight me.
         // This generates a unique ID for each item in the layout. Because of this, all UI
         // references need to be obtained BEFORE this loop.
-        frameLayout.setId(generateViewId());
-        int childCount = frameLayout.getChildCount();
+        linearLayout.setId(generateViewId());
+        int childCount = linearLayout.getChildCount();
 
         for (int i = 0; i < childCount; i++) {
-            View v = frameLayout.getChildAt(i);
+            View v = linearLayout.getChildAt(i);
             v.setId(generateViewId());
         }
 
