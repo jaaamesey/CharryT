@@ -4,4 +4,6 @@
     <string name="empty">Empty. </string>
     <string name="dashboard_welcome">Welcome to the dashboard.</string>
     <string name="history">History</string>
+    <string name="loading">Loading...</string>
+    <string name="placeholder_title">Title</string>
 </resources>
