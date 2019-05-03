@@ -58,6 +58,7 @@ public class ViewListingsFragment extends Fragment {
 
     private void refreshListings() {
         // Clear visible items and show loading text
+        listings.clear();
         listingsVBox.removeAllViews();
         loadingText.setVisibility(View.VISIBLE);
 
@@ -71,11 +72,11 @@ public class ViewListingsFragment extends Fragment {
                     return;
                 }
                 // Update listings array
-                listings.clear();
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Listing listing = document.toObject(Listing.class);
                     listings.add(listing);
-                    ListingView listingView = new ListingView(getContext(), listingsVBox, listing);
+                    // Create new listing views for the UI (auto attached to listingsVBox)
+                    new ListingView(getContext(), listingsVBox, listing);
                 }
 
                 // Done

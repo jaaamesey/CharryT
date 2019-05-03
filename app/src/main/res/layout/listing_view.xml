@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10sp">
+    android:layout_marginBottom="10sp"
+    android:saveEnabled="false">
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -13,6 +14,7 @@
         android:background="@color/darkerWhite"
         android:clickable="true"
         android:focusable="true"
+        android:saveEnabled="false"
         android:clipToPadding="true"
         android:foreground="?attr/selectableItemBackground"
 
@@ -23,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="183dp"
             android:importantForAccessibility="no"
+            android:saveEnabled="false"
             tools:ignore="ContentDescription"
             tools:srcCompat="@tools:sample/avatars[3]" />
 
@@ -31,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="180sp"
+            android:saveEnabled="false"
             android:padding="10sp"
             android:text="@string/placeholder_title"
             android:textSize="24sp"
@@ -40,6 +44,7 @@
             android:id="@+id/description_text"
             android:layout_width="428dp"
             android:layout_height="74dp"
+            android:saveEnabled="false"
             android:layout_marginStart="1.5sp"
             android:layout_marginTop="214sp"
             android:padding="10sp"

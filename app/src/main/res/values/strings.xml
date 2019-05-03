@@ -7,4 +7,7 @@
     <string name="loading">Loading...</string>
     <string name="placeholder_title">Title</string>
     <string name="placeholder_description">Description</string>
+    <string name="create_donation_listing">Create donation listing</string>
+    <string name="description">Description</string>
+    <string name="submit">Submit</string>
 </resources>
