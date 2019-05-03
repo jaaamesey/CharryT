@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         navigationMenu.add("Add donation listing");
         navigationMenu.add("Add request listing");
         navigationMenu.add("History");
+        navigationMenu.add("MapsActivity");
         navigationMenu.add("Create booking");
         navigationMenu.add("View bookings");
         navigationMenu.add("Login");
@@ -110,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "Create booking":
                                 goToActivity(CreateBookingActivity.class);
+                                break;
+                            case "MapsActivity":
+                                goToActivity(MapsActivity.class);
                                 break;
                             default:
                                 String error = "ERROR: No function implemented for " + itemName;

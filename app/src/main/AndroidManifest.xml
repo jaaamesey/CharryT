@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.group5.charryt">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -46,6 +48,7 @@
         <activity android:name=".ui.AddDonationListingActivity" />
         <activity android:name=".ui.AddRequestListingActivity" />
         <activity android:name=".ui.CreateBookingActivity" />
+        <activity android:name=".ui.MapsActivity" />
     </application>
 
 </manifest>
