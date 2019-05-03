@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
         // If not on the dashboard, go to it instead of minimising the app.
         if (!(currentFragment instanceof DashboardFragment) && currentFragment != null) {
             swapFragment(new DashboardFragment());
+            setChecked(dashboardMenuItem);
             return;
         }
 

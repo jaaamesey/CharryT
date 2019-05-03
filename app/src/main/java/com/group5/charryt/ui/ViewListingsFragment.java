@@ -71,16 +71,23 @@ public class ViewListingsFragment extends Fragment {
                     loadingText.setVisibility(View.INVISIBLE);
                     return;
                 }
-                // Update listings array
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Listing listing = document.toObject(Listing.class);
-                    listings.add(listing);
-                    // Create new listing views for the UI (auto attached to listingsVBox)
-                    new ListingView(getContext(), listingsVBox, listing);
-                }
 
-                // Done
-                loadingText.setVisibility(View.INVISIBLE);
+                // Nested in a try catch block to prevent bugs from user spamming back button
+                // and stuff like that
+                try {
+                    // Update listings array
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Listing listing = document.toObject(Listing.class);
+                        listings.add(listing);
+                        // Create new listing views for the UI (auto attached to listingsVBox)
+                        new ListingView(getContext(), listingsVBox, listing);
+                    }
+
+                    // Done
+                    loadingText.setVisibility(View.INVISIBLE);
+                } catch (NullPointerException nullPointerException) {
+                    System.out.println("ERROR: " + nullPointerException);
+                }
             }
         });
     }
