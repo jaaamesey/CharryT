@@ -1,9 +1,5 @@
 package com.group5.charryt.data;
 
-import android.location.Location;
-
-import java.util.ArrayList;
-
 @SuppressWarnings("WeakerAccess")
 public class User {
     private String emailAddress;
@@ -22,4 +18,30 @@ public class User {
     public User(){
 
     }
+
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
 }

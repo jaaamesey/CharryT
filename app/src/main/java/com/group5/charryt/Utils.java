@@ -11,13 +11,24 @@ import com.group5.charryt.ui.MainActivity;
 // A class to stash everyone's little helper functions that don't belong in any other class.
 // Functions must ALL be static.
 public class Utils {
+    public static Context currentContext;
 
     // Creates a dialog box - useful for debugging and showing error messages
-    public static void showDialog(String text, Context context) {
+    public static void showDialog(String text, Context context, boolean alsoPrintToConsole) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         alertDialogBuilder.setMessage(text);
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+        if (alsoPrintToConsole)
+            System.out.println(text);
+    }
+
+    public static void showDialog(String text, Context context) {
+        showDialog(text, context, true);
+    }
+
+    public static void showDialog(String text) {
+        showDialog(text, currentContext, true);
     }
 
     // Shorthand way to get a reference to the main activity (pass "this" into the function parameters)

@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mainActivity = this;
+        Utils.currentContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         // Add items to nav menu here. Remember to actually implement them down below.
         navigationMenu.add("Add donation listing");
         navigationMenu.add("Add request listing");
+        navigationMenu.add("View listings");
         navigationMenu.add("History");
         navigationMenu.add("MapsActivity");
         navigationMenu.add("Create booking");
@@ -87,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
                         switch (itemName) {
                             case "Dashboard":
                                 swapFragment(new DashboardFragment());
+                                setChecked(menuItem);
+                                break;
+                            case "View listings":
+                                swapFragment(new ViewListingsFragment());
                                 setChecked(menuItem);
                                 break;
                             case "History":
