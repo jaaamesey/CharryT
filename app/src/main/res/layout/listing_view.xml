@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="10sp">
@@ -9,17 +10,41 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#EEEEEE"
+        android:background="@color/darkerWhite"
+        android:clickable="true"
+        android:focusable="true"
         android:clipToPadding="true"
+        android:foreground="?attr/selectableItemBackground"
+
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/item_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="183dp"
+            android:importantForAccessibility="no"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@tools:sample/avatars[3]" />
 
         <TextView
             android:id="@+id/title_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="180sp"
             android:padding="10sp"
+            android:text="@string/placeholder_title"
             android:textSize="24sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="428dp"
+            android:layout_height="74dp"
+            android:layout_marginStart="1.5sp"
+            android:layout_marginTop="214sp"
+            android:padding="10sp"
+            android:text="@string/placeholder_description"
+            android:textSize="14sp" />
 
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>
