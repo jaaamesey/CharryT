@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Create Account"
-            android:textSize="32dp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="@color/colorBlack"/>
 
@@ -22,12 +23,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="First Name:"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            tools:targetApi="o" />
         <EditText
             android:id="@+id/firstNameEt"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"/>
+            android:layout_marginHorizontal="10dp"
+            android:inputType="textPersonName"
+            tools:targetApi="o" />
         
         
         <TextView
@@ -35,12 +39,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="Last Name:"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            tools:targetApi="o" />
         <EditText
             android:id="@+id/lastNameEt"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp" />
+            android:layout_marginHorizontal="10dp"
+            tools:targetApi="o" />
         
         
         <TextView
@@ -48,13 +54,16 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="Email:"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            tools:targetApi="o" />
         <EditText
             android:id="@+id/emailEt"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:autofillHints=""/>
+            android:autofillHints=""
+            android:inputType="textEmailAddress"
+            tools:targetApi="o" />
         
         
         <TextView
@@ -62,13 +71,15 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:text="Password:"
-            android:textColor="@color/colorBlack"/>
+            android:textColor="@color/colorBlack"
+            tools:targetApi="o" />
         <EditText
             android:id="@+id/passwordEt"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            tools:targetApi="o" />
         
         
         <TextView

@@ -18,6 +18,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -43,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (email.isEmpty() || password.isEmpty())
                     return;
                 getUser(email, password);
-                uid = mAuth.getCurrentUser().getUid();
+                uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
                 updateDetails();
             }
         });
@@ -82,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if(task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
+                        assert document != null;
                         if(document.exists()) {
                                     firstNameTxt.setText(document.getString("firstName"));
                                     lastNameTxt.setText(document.getString("lastName"));
@@ -92,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         } catch (Exception e){
-            firstNameTxt.setText(e.getStackTrace().toString());
+            firstNameTxt.setText(Arrays.toString(e.getStackTrace()));
         }
     }
 }

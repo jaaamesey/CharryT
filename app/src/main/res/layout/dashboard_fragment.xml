@@ -9,7 +9,6 @@
         android:layout_width="370dp"
         android:layout_height="699dp"
         android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
         android:layout_marginTop="18dp"
         android:text="@string/dashboard_welcome"
         android:textAllCaps="false"

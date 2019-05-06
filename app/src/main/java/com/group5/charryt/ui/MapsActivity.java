@@ -46,9 +46,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker mCurrLocationMarker;
     LocationRequest mLocationRequest = new LocationRequest();
 
-    MapsActivity(Location location) {
-        // TODO: Set current location marker to given location
-    }
+    // Apparently adding your own constructor here breaks things, so instead maybe
+    // change the location AFTER instantiating when launching the activity from somewhere else.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +62,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         final ArrayList<String> list = new ArrayList<>();
 
-        for (int i = 0; i < values.length; ++i) {
-            boolean add = list.add(values[i]);
+        for (String value : values) {
+            boolean add = list.add(value);
         }
 
 
-        final ArrayAdapter adapter = new ArrayAdapter(this,
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1
                 , list);
         listview.setAdapter(adapter);
@@ -100,9 +99,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
+        checkLocationPermission();
 
         //Check if Google Play Services Available or not
         if (!CheckGooglePlayServices()) {
@@ -115,6 +112,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
 
@@ -159,6 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGoogleApiClient.connect();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
@@ -176,9 +175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String getUrl(double latitude, double longitude, String nearbyPlace) {
 
         StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location=" + latitude + "," + longitude);
+        googlePlacesUrl.append("location=").append(latitude).append(",").append(longitude);
         googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
-        googlePlacesUrl.append("&type=" + nearbyPlace);
+        googlePlacesUrl.append("&type=").append(nearbyPlace);
         googlePlacesUrl.append("&sensor=true");
         googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
         Log.d("getUrl", googlePlacesUrl.toString());
@@ -219,7 +218,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
