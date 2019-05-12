@@ -64,10 +64,12 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            FirebaseUser currentUser = mAuth.getCurrentUser();
+                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
                             Map<String, Object> userData = new HashMap<>();
                             userData.put("firstName", firstNameEt.getText().toString());
                             userData.put("lastName", lastNameEt.getText().toString());
+
                             db.collection("users").document(currentUser.getUid())
                                     .set(userData)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {

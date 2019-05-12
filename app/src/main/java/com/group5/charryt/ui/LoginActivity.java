@@ -1,12 +1,18 @@
 package com.group5.charryt.ui;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,7 +28,6 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
-
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private EditText emailEt, passwordEt;
@@ -34,9 +39,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        init();
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-        init();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         if(task.isSuccessful()){
                             return;
                         } else {
@@ -87,10 +93,8 @@ public class LoginActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         assert document != null;
                         if(document.exists()) {
-                                    firstNameTxt.setText(document.getString("firstName"));
-                                    lastNameTxt.setText(document.getString("lastName"));
-                        } else {
-                            firstNameTxt.setText("User doesn't exist");
+                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(main);
                         }
                     }
                 }

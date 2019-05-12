@@ -16,6 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null)
+            goToActivity(LoginActivity.class);
+
         mainActivity = this;
         Utils.currentContext = this;
         super.onCreate(savedInstanceState);
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         navigationMenu.add("Create booking");
         navigationMenu.add("View bookings");
         navigationMenu.add("Login");
+        navigationMenu.add("Profile Details");
         navigationMenu.add("Register");
         navigationMenu.add("Fortnite");
 
@@ -105,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "Login":
                                 goToActivity(LoginActivity.class);
+                                break;
+                            case "Profile Details":
+                                swapFragment(new ProfileFragment());
                                 break;
                             case "Register":
                                 goToActivity(RegisterActivity.class);

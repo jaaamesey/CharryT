@@ -6,11 +6,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 
 public class ProfileFragment extends Fragment {
+    private TextView firstNameTxt, lastNameTxt;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -20,7 +29,34 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        MainActivity main = Utils.getMainActivity(this);
-        main.setToolbarText("My Profile");
+        firstNameTxt = getView().findViewById(R.id.firstNameTxt);
+        lastNameTxt = getView().findViewById(R.id.lastNameTxt);
+        MainActivity main = (MainActivity) getActivity();
+        assert main != null;
+        main.setToolbarText("Profile Details");
+        try {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null)
+                return;
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            DocumentReference docRef = db.collection("users").document(user.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        assert document != null;
+                        if (document.exists()) {
+                            firstNameTxt.setText(document.getString("firstName"));
+                            lastNameTxt.setText(document.getString("lastName"));
+                        }
+                    }
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
+
 }

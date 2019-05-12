@@ -5,86 +5,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="160dp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <TextView
-            android:layout_row="0"
-            android:layout_columnSpan="2"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="@string/login"
+            android:layout_gravity="left"
 
+            android:text="@string/login"
             android:textColor="@color/colorBlack"
             android:textSize="60sp" />
 
         <TextView
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="left"
 
+            android:layout_marginBottom="10dp"
             android:text="@string/email"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textColor="@color/colorBlack" />
+
+        <EditText
+            android:id="@+id/emailEt"
+
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+
+            android:inputType="textEmailAddress"
+            tools:ignore="Autofill,LabelFor" />
 
         <TextView
-            android:layout_row="2"
-            android:layout_column="0"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_gravity="left"
 
+            android:textColor="@color/colorBlack"
             android:text="@string/password"
             android:textSize="25sp" />
 
         <EditText
-            android:id="@+id/emailEt"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-
-            android:layout_row="1"
-            android:layout_column="1"
-            android:inputType="textEmailAddress"
-            tools:ignore="Autofill,LabelFor" />
-
-        <EditText
             android:id="@+id/pwEt"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
 
-            android:layout_column="1"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+
             android:inputType="textPassword"
             tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/firstNameTxt"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_row="3"
-
-            android:layout_column="1"
             android:text="" />
 
         <TextView
             android:id="@+id/lastNameTxt"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_row="4"
-
-            android:layout_column="1"
             android:text="" />
 
         <Button
             android:id="@+id/loginBtn"
-            android:layout_height="wrap_content"
-            android:layout_row="5"
 
-            android:layout_column="1"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:text="@string/login" />
 
-    </GridLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

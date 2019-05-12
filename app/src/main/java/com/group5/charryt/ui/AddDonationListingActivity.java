@@ -62,6 +62,7 @@ public class AddDonationListingActivity extends AppCompatActivity {
                 data.put("description", description);
                 data.put("postDate", Calendar.getInstance().getTime());
                 data.put("owner", user);
+                data.put("latitude", 33.999);
 
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);

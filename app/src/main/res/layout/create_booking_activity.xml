@@ -3,4 +3,150 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Booking"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="20dp">
+
+            <TextView
+                android:id="@+id/fnLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_marginHorizontal="10dp"
+                android:text="First Name:" />
+
+            <TextView
+                android:id="@+id/lnLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_marginHorizontal="10dp"
+                android:text="Last Name:" />
+
+            <TextView
+                android:id="@+id/emailLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_marginHorizontal="10dp"
+                android:text="Email:" />
+
+            <TextView
+                android:id="@+id/phoneLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_marginHorizontal="10dp"
+                android:text="Phone:" />
+
+            <TextView
+                android:id="@+id/dateLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_marginHorizontal="10dp"
+                android:text="Date:" />
+
+            <TextView
+                android:id="@+id/timeLb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="7"
+                android:layout_column="0"
+                android:text="Time:" />
+
+            <EditText
+                android:id="@+id/firstNameEt"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_marginHorizontal="10dp" />
+
+            <EditText
+                android:id="@+id/lastNameEt"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_marginHorizontal="10dp" />
+
+            <EditText
+                android:id="@+id/emailEt"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_marginHorizontal="10dp" />
+
+            <EditText
+                android:id="@+id/phoneEt"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_marginHorizontal="10dp"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/dateEt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:ems="10"
+                android:inputType="date" />
+
+            <EditText
+                android:id="@+id/timeEt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="7"
+                android:layout_column="1"
+                android:ems="10"
+                android:inputType="time" />
+
+            <Button
+                android:id="@+id/BookBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="9"
+                android:layout_column="1"
+                android:text="Book" />
+
+            <TextView
+                android:id="@+id/feedbacktxt"
+                android:layout_width="204dp"
+                android:layout_height="wrap_content"
+                android:layout_row="8"
+                android:layout_column="1" />
+
+        </GridLayout>
+
+
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
