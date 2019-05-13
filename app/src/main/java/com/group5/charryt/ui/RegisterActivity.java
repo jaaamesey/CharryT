@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,14 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
+import com.group5.charryt.data.User.UserType;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
+    private UserType userType = UserType.Donor;
     private Button registerBtn;
     private EditText firstNameEt, lastNameEt, emailEt, passwordEt, passwordConfirmEt;
-    private TextView feedbackTxt;
+    private Spinner userTypeSpinner;
+    private TextView feedbackTxt, firstNameTxt, lastNameTxt;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private boolean created;
@@ -55,6 +60,26 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         );
+
+        userTypeSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Cast clicked item position to enum value
+                userType = UserType.values()[(int) id];
+
+                if (userType == UserType.Donor) {
+                    firstNameTxt.setText("First Name:");
+                    lastNameTxt.setVisibility(View.VISIBLE);
+                    lastNameEt.setVisibility(View.VISIBLE);
+                } else if (userType == UserType.Charity) {
+                    firstNameTxt.setText("Organisation Name:");
+                    lastNameTxt.setVisibility(View.INVISIBLE);
+                    lastNameEt.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+
     }
 
     // returns true or false depending on if account was created successfully
@@ -67,8 +92,18 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
                             Map<String, Object> userData = new HashMap<>();
-                            userData.put("firstName", firstNameEt.getText().toString());
-                            userData.put("lastName", lastNameEt.getText().toString());
+
+                            userData.put("userType", userType);
+
+                            if (userType == UserType.Donor) {
+                                userData.put("firstName", firstNameEt.getText().toString());
+                                userData.put("lastName", lastNameEt.getText().toString());
+                            }
+
+                            if (userType == UserType.Charity) {
+                                userData.put("name", firstNameEt.getText().toString());
+                            }
+
 
                             db.collection("users").document(currentUser.getUid())
                                     .set(userData)
@@ -107,6 +142,9 @@ public class RegisterActivity extends AppCompatActivity {
         passwordEt = findViewById(R.id.passwordEt);
         passwordConfirmEt = findViewById(R.id.passwordConfirmEt);
         feedbackTxt = findViewById(R.id.feedbackTxt);
+        firstNameTxt = findViewById(R.id.firstNameTxt);
+        lastNameTxt = findViewById(R.id.lastNameTxt);
+        userTypeSpinner = findViewById(R.id.userTypeSpinner);
     }
 
 

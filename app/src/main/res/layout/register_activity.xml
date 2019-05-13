@@ -19,9 +19,27 @@
             android:textColor="@color/colorBlack"/>
 
         <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20sp"
+            android:text="I am a:"
+            android:textColor="@color/colorBlack"
+            tools:targetApi="o" />
+
+        <Spinner
+            android:id="@+id/userTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="Donor, Charity" />
+
+        <TextView
+            android:id="@+id/firstNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="20sp"
             android:text="First Name:"
             android:textColor="@color/colorBlack"
             tools:targetApi="o" />
@@ -35,6 +53,7 @@
         
         
         <TextView
+            android:id="@+id/lastNameTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"

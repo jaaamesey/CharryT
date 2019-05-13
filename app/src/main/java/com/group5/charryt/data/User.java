@@ -2,15 +2,31 @@ package com.group5.charryt.data;
 
 @SuppressWarnings("WeakerAccess")
 public class User {
+    private UserType userType = UserType.Donor; // User type is donor by default
+
     private String emailAddress;
     private String firstName;
     private String lastName;
-//    private Location location;
 
-    public User(String e, String fName, String lName){
-        emailAddress = e;
-        firstName = fName;
-        lastName = lName;
+    public User(String emailAddress, String fName, String lName, UserType userType) {
+        this.emailAddress = emailAddress;
+        this.firstName = fName;
+        this.lastName = lName;
+        this.userType = userType;
+    }
+
+    //private Location location;
+
+
+    public User(String emailAddress, String fName, String lName) {
+        this.emailAddress = emailAddress;
+        this.firstName = fName;
+        this.lastName = lName;
+    }
+
+    public enum UserType {
+        Donor,
+        Charity
     }
 
     public User(){
