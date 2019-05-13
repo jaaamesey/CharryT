@@ -5,7 +5,7 @@ import java.util.Date;
 
 @SuppressWarnings("WeakerAccess")
 public class Listing {
-    private User creator; // User that created the listing
+    private User owner; // User that created the listing
     private String title;
     private String description;
     private Date postDate; // The date the listing was posted
@@ -13,12 +13,12 @@ public class Listing {
     private ArrayList<String> tags = new ArrayList<>();
 
 
-    public User getCreator() {
-        return creator;
+    public User getOwner() {
+        return owner;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public String getTitle() {

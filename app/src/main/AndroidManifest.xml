@@ -71,10 +71,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.AddDonationListingActivity"
+            android:name=".ui.CreateDonationListingActivity"
             android:configChanges="orientation|screenSize" />
         <activity
-            android:name=".ui.AddRequestListingActivity"
+            android:name=".ui.CreateRequestListingActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.CreateBookingActivity"

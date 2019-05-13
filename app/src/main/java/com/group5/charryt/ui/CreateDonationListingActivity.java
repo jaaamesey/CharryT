@@ -21,7 +21,7 @@ import com.group5.charryt.Utils;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddDonationListingActivity extends AppCompatActivity {
+public class CreateDonationListingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -32,7 +32,7 @@ public class AddDonationListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_donation_listing);
+        setContentView(R.layout.create_donation_listing);
         final Context context = this; // Stored for inner classes
 
         mAuth = FirebaseAuth.getInstance();

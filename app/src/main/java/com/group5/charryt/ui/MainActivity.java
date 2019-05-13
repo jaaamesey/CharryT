@@ -120,10 +120,10 @@ public class MainActivity extends AppCompatActivity {
                                 goToActivity(RegisterActivity.class);
                                 break;
                             case "Add donation listing":
-                                goToActivity(AddDonationListingActivity.class);
+                                goToActivity(CreateDonationListingActivity.class);
                                 break;
                             case "Add request listing":
-                                goToActivity(AddRequestListingActivity.class);
+                                goToActivity(CreateRequestListingActivity.class);
                                 break;
                             case "Create booking":
                                 goToActivity(CreateBookingActivity.class);

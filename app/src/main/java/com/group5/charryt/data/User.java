@@ -6,8 +6,6 @@ public class User {
     private String firstName;
     private String lastName;
 //    private Location location;
-//    private ArrayList<Booking> bookings = new ArrayList<>();
-//    private ArrayList<Listing> listings = new ArrayList<>();
 
     public User(String e, String fName, String lName){
         emailAddress = e;
