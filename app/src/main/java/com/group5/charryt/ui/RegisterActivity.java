@@ -61,11 +61,11 @@ public class RegisterActivity extends AppCompatActivity {
             }
         );
 
-        userTypeSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        userTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Cast clicked item position to enum value
-                userType = UserType.values()[(int) id];
+                userType = UserType.values()[position];
 
                 if (userType == UserType.Donor) {
                     firstNameTxt.setText("First Name:");
@@ -76,6 +76,11 @@ public class RegisterActivity extends AppCompatActivity {
                     lastNameTxt.setVisibility(View.INVISIBLE);
                     lastNameEt.setVisibility(View.INVISIBLE);
                 }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
