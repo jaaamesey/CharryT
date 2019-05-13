@@ -32,7 +32,7 @@
             android:id="@+id/userTypeSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="Donor, Charity" />
+            android:entries="@array/user_types" />
 
         <TextView
             android:id="@+id/firstNameTxt"
