@@ -31,6 +31,7 @@ public class DetailedListingActivity extends AppCompatActivity {
         setContentView(R.layout.detailed_listing_activity);
         init();
 
+        getSupportActionBar().setTitle("View Item");
 
         imageView.setImageResource(R.drawable.test);
 
