@@ -78,6 +78,7 @@ public class ViewListingsFragment extends Fragment {
                     // Update listings array
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Listing listing = document.toObject(Listing.class);
+                        listing.setId(document.getId());
                         listings.add(listing);
                         // Create new listing views for the UI (auto attached to listingsVBox)
                         new ListingView(getContext(), listingsVBox, listing);

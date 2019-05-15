@@ -36,25 +36,27 @@ public class ProfileFragment extends Fragment {
         main.setToolbarText("Profile Details");
         try {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            if (user == null)
-                return;
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            if (user == null) {
+                firstNameTxt.setText("No user logged in");
+            } else {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            DocumentReference docRef = db.collection("users").document(user.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        assert document != null;
-                        if (document.exists()) {
-                            firstNameTxt.setText(document.getString("firstName"));
-                            lastNameTxt.setText(document.getString("lastName"));
+                DocumentReference docRef = db.collection("users").document(user.getUid());
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            assert document != null;
+                            if (document.exists()) {
+                                firstNameTxt.setText(document.getString("firstName"));
+                                lastNameTxt.setText(document.getString("lastName"));
+                            }
                         }
                     }
-                }
-            });
-        } catch (Exception e){
+                });
+            }
+        } catch(Exception e){
             e.printStackTrace();
         }
     }

@@ -5,6 +5,7 @@ import java.util.Date;
 
 @SuppressWarnings("WeakerAccess")
 public class Listing {
+    private String id;
     private User owner; // User that created the listing
     private String title;
     private String description;
@@ -12,12 +13,19 @@ public class Listing {
     private Date endDate; // The date the listing expires
     private ArrayList<String> tags = new ArrayList<>();
 
+    public String getId(){
+        return id;
+    }
 
-    public User getOwner() {
+    public void setId(String id){
+        this.id = id;
+    }
+
+    public User getCreator() {
         return owner;
     }
 
-    public void setOwner(User owner) {
+    public void setCreator(User owner) {
         this.owner = owner;
     }
 

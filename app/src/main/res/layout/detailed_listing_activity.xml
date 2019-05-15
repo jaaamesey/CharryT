@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/imageView" />
+    <TextView
+        android:id="@+id/listingNameTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="undefined"
+        android:textSize="36dp"
+        android:textColor="@color/colorBlack" />
+    <TextView
+        android:id="@+id/datePostedTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posted: 1 Jan 1970"
+        android:layout_marginBottom="10dp" />
+    <TextView
+        android:id="@+id/descriptionTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+
+        android:textColor="@color/colorBlack"
+        android:text="template description"
+        android:layout_marginBottom="10dp"
+        android:textSize="18dp"/>
+    <Button
+        android:id="@+id/makeBookingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Make Booking"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:text="Location:"
+        android:textSize="20dp"
+        android:textColor="@color/colorBlack"/>
+
+    <TextView
+        android:id="@+id/locationPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:text="map can be added here once location for listing is functional"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

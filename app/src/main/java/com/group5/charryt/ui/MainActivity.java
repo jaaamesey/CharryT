@@ -36,14 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mainActivity = this;
+        Utils.currentContext = this;
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null)
             goToActivity(LoginActivity.class);
-
-        mainActivity = this;
-        Utils.currentContext = this;
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // Instantiate references to UI components
         navigationView = findViewById(R.id.nav_view);

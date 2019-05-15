@@ -96,7 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
-                            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                            FirebaseUser currentUser = mAuth.getCurrentUser();
 
                             Map<String, Object> userData = new HashMap<>();
 
