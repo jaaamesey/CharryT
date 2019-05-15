@@ -104,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(document.exists()) {
                             Intent main = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(main);
+                            finish();
                         }
                     }
                 }

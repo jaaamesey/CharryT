@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
+import com.group5.charryt.Utils;
 import com.group5.charryt.data.User.UserType;
 
 import java.util.HashMap;
@@ -116,21 +118,23 @@ public class RegisterActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             feedbackTxt.setTextColor(Color.GREEN);
-                                            feedbackTxt.setText("Account Created.");
+                                            feedbackTxt.setText("Account created.");
+                                            Toast.makeText(getBaseContext(), "Account created.", Toast.LENGTH_SHORT).show();
                                             created = true;
+                                            finish();
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             feedbackTxt.setTextColor(Color.RED);
-                                            feedbackTxt.setText("Data Not Created.");
+                                            feedbackTxt.setText("Data not created.");
                                             created = false;
                                         }
                                     });
                         } else {
                             feedbackTxt.setTextColor(Color.RED);
-                            feedbackTxt.setText("User Not Created.");
+                            feedbackTxt.setText("User not created.");
                             created = false;
                         }
                     }

@@ -66,12 +66,14 @@ public class CreateBookingActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getBaseContext(), "Book Successful", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(getBaseContext(), "Error!", Toast.LENGTH_SHORT).show();
+
                         Log.d(TAG, e.toString());
                     }
                 });
