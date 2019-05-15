@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText emailEt, passwordEt;
     private TextView firstNameTxt, lastNameTxt;
-    private Button loginBtn;
+    private Button loginBtn, registerBtn;
     private String uid = "1231231";
 
     @Override
@@ -57,6 +57,14 @@ public class LoginActivity extends AppCompatActivity {
                 updateDetails();
             }
         });
+
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                Intent register = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(register);
+            }
+        });
     }
 
     private void init() {
@@ -65,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         firstNameTxt = findViewById(R.id.firstNameTxt);
         lastNameTxt = findViewById(R.id.lastNameTxt);
         loginBtn = findViewById(R.id.loginBtn);
+        registerBtn = findViewById(R.id.registerBtn);
     }
 
     private void getUser(String emailParam, String passwordParam) {

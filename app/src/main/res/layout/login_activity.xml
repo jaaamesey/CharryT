@@ -84,5 +84,12 @@
             android:layout_width="wrap_content"
             android:text="@string/login" />
 
+        <Button
+            android:id="@+id/registerBtn"
+
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Register"/>
+
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
