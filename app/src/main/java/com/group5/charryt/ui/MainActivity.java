@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         navigationMenu.add("View listings");
         navigationMenu.add("History");
         navigationMenu.add("MapsActivity");
-        navigationMenu.add("Create booking");
         navigationMenu.add("View bookings");
         navigationMenu.add("Login");
         navigationMenu.add("Profile Details");

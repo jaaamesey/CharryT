@@ -1,5 +1,7 @@
 package com.group5.charryt.data;
 
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import org.parceler.Parcel;
 
 @SuppressWarnings("WeakerAccess")
@@ -59,6 +61,10 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getName() {
+        return (getFirstName() + " " + getLastName()).trim();
     }
 
 }

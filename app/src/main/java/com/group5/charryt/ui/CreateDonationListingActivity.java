@@ -4,7 +4,9 @@ import android.content.Context;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import com.group5.charryt.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class CreateDonationListingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -34,6 +37,13 @@ public class CreateDonationListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_donation_listing);
         final Context context = this; // Stored for inner classes
+
+        // Add back button to action bar (for some reason called the "home" button
+        ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        actionBar.setTitle("Create Donation Listing");
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -61,7 +71,7 @@ public class CreateDonationListingActivity extends AppCompatActivity {
                 data.put("title", title);
                 data.put("description", description);
                 data.put("postDate", Calendar.getInstance().getTime());
-                data.put("owner", user);
+                data.put("owner", user.getUid());
 
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);
@@ -81,6 +91,15 @@ public class CreateDonationListingActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // If back button pressed, close this activity.
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

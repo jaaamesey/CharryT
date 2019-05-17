@@ -15,21 +15,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <TextView
-        android:id="@+id/add_donation_text_view"
-        android:layout_width="260dp"
-        android:layout_height="43dp"
-        android:padding="10sp"
-        android:text="@string/create_donation_listing"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10sp"
-        android:layout_marginTop="42sp"
         android:layout_marginEnd="10sp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"

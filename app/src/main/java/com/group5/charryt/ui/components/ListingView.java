@@ -52,7 +52,6 @@ public class ListingView extends View {
         linearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                ListingView.super.callOnClick();
                 DetailedListingActivity item = new DetailedListingActivity();
                 Intent viewItem = new Intent(getActivity(), item.getClass());
                 viewItem.putExtra("listing", Parcels.wrap(listing));

@@ -15,6 +15,7 @@ public class Charity extends User {
         this.longitude = longitude;
     }
 
+    @Override
     public String getName() {
         return name;
     }

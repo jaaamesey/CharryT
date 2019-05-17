@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 import com.group5.charryt.data.Listing;
+import com.group5.charryt.data.User;
 import com.group5.charryt.ui.components.ListingView;
 
 import java.util.ArrayList;
@@ -83,13 +84,14 @@ public class ViewListingsFragment extends Fragment {
                 }
 
                 // Nested in a try catch block to prevent bugs from user spamming back button
-                // and stuff like that
+                // and stuff like that.
                 try {
                     listings.clear();
                     listingsVBox.removeAllViews();
                     // Update listings array
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Listing listing = document.toObject(Listing.class);
+                        //Utils.showDialog(listing.getCreator().getEmailAddress());
                         listing.setId(document.getId());
                         listings.add(listing);
                     }
