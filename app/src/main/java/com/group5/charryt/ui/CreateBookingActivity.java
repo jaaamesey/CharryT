@@ -11,8 +11,10 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
+import com.group5.charryt.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,19 +63,20 @@ public class CreateBookingActivity extends AppCompatActivity {
         BookingInformation.put(KEY_DATE, date);
         BookingInformation.put(KEY_TIME, time);
 
-        db.collection("bookings").document().set(BookingInformation)
+        final DocumentReference newDocument = db.collection("bookings").document();
+        newDocument.set(BookingInformation)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getBaseContext(), "Book Successful", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), "Successfully created booking.", Toast.LENGTH_SHORT).show();
+                        Utils.showDialog(newDocument.getId());
                         finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getBaseContext(), "Error!", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getBaseContext(), "Error creating booking.", Toast.LENGTH_SHORT).show();
                         Log.d(TAG, e.toString());
                     }
                 });

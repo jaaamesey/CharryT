@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 import android.support.annotation.UiThread;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -21,8 +22,12 @@ import com.group5.charryt.ui.DetailedListingActivity;
 import com.group5.charryt.ui.MainActivity;
 import com.group5.charryt.ui.ViewListingsFragment;
 
+import org.parceler.Parcels;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 @SuppressLint("ViewConstructor")
 public class ListingView extends View {
@@ -31,8 +36,6 @@ public class ListingView extends View {
     private ImageView imageView;
     private LinearLayout linearLayout;
     private Fragment currentFragment;
-
-//    private Listing listing;
 
     public ListingView(final Context context, ViewGroup parent, final Listing listing) {
 
@@ -43,27 +46,17 @@ public class ListingView extends View {
         descriptionTextView = view.findViewById(R.id.description_text);
         imageView = view.findViewById(R.id.item_image_view);
 
-//        this.listing = listing;
         setTag(listing);
-
         updateView(listing);
 
         linearLayout.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    Date datePosted = listing.getPostDate();
-                    SimpleDateFormat format = new SimpleDateFormat("dd MMM yyyy");
-                    DetailedListingActivity item = new DetailedListingActivity();
-                    Intent viewItem = new Intent(getActivity(), item.getClass());
-                    viewItem.putExtra("name", listing.getTitle());
-                    viewItem.putExtra("date", "Posted: " + format.format(datePosted));
-                    viewItem.putExtra("description", listing.getDescription());
-                    viewItem.putExtra("location", "6.9, 6.9");
-                    context.startActivity(viewItem);
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
+                ListingView.super.callOnClick();
+                DetailedListingActivity item = new DetailedListingActivity();
+                Intent viewItem = new Intent(getActivity(), item.getClass());
+                viewItem.putExtra("listing", Parcels.wrap(listing));
+                context.startActivity(viewItem);
             }
         });
     }

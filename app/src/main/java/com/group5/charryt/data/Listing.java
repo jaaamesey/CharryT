@@ -1,9 +1,12 @@
 package com.group5.charryt.data;
 
+import org.parceler.Parcel;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 @SuppressWarnings("WeakerAccess")
+@Parcel
 public class Listing {
     private String id;
     private User owner; // User that created the listing

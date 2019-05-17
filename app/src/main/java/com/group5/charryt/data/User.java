@@ -1,6 +1,9 @@
 package com.group5.charryt.data;
 
+import org.parceler.Parcel;
+
 @SuppressWarnings("WeakerAccess")
+@Parcel
 public class User {
     private UserType userType = UserType.Donor; // User type is donor by default
 

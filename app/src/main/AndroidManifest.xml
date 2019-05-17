@@ -37,7 +37,7 @@
             android:name=".ui.MapsActivity"
             android:configChanges="orientation|screenSize"
             android:label="CharryT" />
-        "
+
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"

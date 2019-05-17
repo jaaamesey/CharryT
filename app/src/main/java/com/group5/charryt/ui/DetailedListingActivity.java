@@ -19,35 +19,45 @@ import android.widget.TextView;
 import com.group5.charryt.R;
 import com.group5.charryt.data.Listing;
 
+import org.parceler.Parcels;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Objects;
+
 public class DetailedListingActivity extends AppCompatActivity {
     private TextView listingNameTv, datePostedTv, descriptionTv, locationPlaceholder;
     private ImageView imageView;
     private Button makeBookingBtn;
-    private String title, datePosted, description, location;
+    private Listing listing;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detailed_listing_activity);
-        init();
 
-        getSupportActionBar().setTitle("View Item");
-
-        imageView.setImageResource(R.drawable.test);
-
-        Intent intent = getIntent();
-        listingNameTv.setText(intent.getStringExtra("name"));
-        descriptionTv.setText(intent.getStringExtra("description"));
-        datePostedTv.setText(intent.getStringExtra("date"));
-        locationPlaceholder.setText(intent.getStringExtra("location"));
-    }
-
-    private void init() {
+        // Initialise view fields
         listingNameTv = findViewById(R.id.listingNameTv);
         datePostedTv = findViewById(R.id.datePostedTv);
         descriptionTv = findViewById(R.id.descriptionTv);
         makeBookingBtn = findViewById(R.id.makeBookingBtn);
         locationPlaceholder = findViewById(R.id.locationPlaceholder);
         imageView = findViewById(R.id.imageView);
+
+        // Get listing from parcel in extra data
+        listing = Parcels.unwrap(getIntent().getParcelableExtra("listing"));
+
+        // Feed text views data from the listing
+        listingNameTv.setText(listing.getTitle());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+        datePostedTv.setText("Date posted: " + dateFormat.format(listing.getPostDate()));
+        descriptionTv.setText(listing.getDescription());
+
+        // Set action bar title to name of the listing
+        Objects.requireNonNull(getSupportActionBar()).setTitle(listing.getTitle());
+
+        // Set image
+        imageView.setImageResource(R.drawable.test);
     }
+
 }

@@ -14,23 +14,28 @@
         android:text="@string/loading"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/listings_vbox"
+        <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:dividerPadding="20sp"
-            android:orientation="vertical" />
-    </ScrollView>
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/listings_vbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:dividerPadding="20sp"
+                android:orientation="vertical" />
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

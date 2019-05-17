@@ -141,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        
+
     }
 
     public void goToActivity(Class activityClass) {
