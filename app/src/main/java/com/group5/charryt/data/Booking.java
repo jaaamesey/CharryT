@@ -11,13 +11,13 @@ public class Booking {
     private Date dateCreated;
     private List<String> involvedUsers;
     private String description;
-    private String listing;
+    private Listing listing;
 
-    public String getListing() {
+    public Listing getListing() {
         return listing;
     }
 
-    public void setListing(String listing) {
+    public void setListing(Listing listing) {
         this.listing = listing;
     }
 

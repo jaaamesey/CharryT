@@ -90,7 +90,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         involvedUsers.add(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
         involvedUsers.add(listing.getOwner());
         bookingInformation.put("involvedUsers", involvedUsers);
-        bookingInformation.put("listing", listing.getId());
+        bookingInformation.put("listing", listing);
         bookingInformation.put("date", new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), hours, minutes).getTime());
         bookingInformation.put("dateCreated", Calendar.getInstance().getTime());
         bookingInformation.put("description", descriptionEt.getText().toString());
