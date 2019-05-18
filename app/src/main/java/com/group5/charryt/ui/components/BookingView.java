@@ -56,8 +56,8 @@ public class BookingView extends View {
             v.setId(generateViewId());
         }
 
-        descriptionTextView.setText(booking.getDescription());
-        titleTextView.setText(booking.getDate().toString());
+        descriptionTextView.setText(booking.getDate().toString() + "\n\n" + booking.getDescription());
+        titleTextView.setText(booking.getListing().getTitle());
     }
 
     private Activity getActivity() {

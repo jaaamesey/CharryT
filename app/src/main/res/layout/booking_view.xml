@@ -10,13 +10,13 @@
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/my_rect"
         android:clickable="true"
         android:clipToPadding="true"
         android:elevation="2dp"
-        android:foreground="?attr/selectableItemBackground"
         android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:saveEnabled="false"
 
 
