@@ -104,7 +104,7 @@ public class ViewBookingsFragment extends Fragment {
                     bookings.sort(new Comparator<Booking>() {
                         @Override
                         public int compare(Booking booking1, Booking booking2) {
-                            return booking2.getDate().compareTo(booking1.getDate());
+                            return booking1.getDate().compareTo(booking2.getDate());
                         }
                     });
 
