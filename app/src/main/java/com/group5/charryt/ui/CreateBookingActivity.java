@@ -1,10 +1,10 @@
 package com.group5.charryt.ui;
 
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -17,15 +17,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
-import com.group5.charryt.Utils;
 import com.group5.charryt.data.Listing;
 
 import org.parceler.Parcels;
 
 
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -68,12 +69,13 @@ public class CreateBookingActivity extends AppCompatActivity {
         String timeString = timeEt.getText().toString();
         String[] timeArr = timeString.split(":");
 
+        int hours, minutes;
         try {
             if (timeArr.length != 2)
                 throw new NumberFormatException();
 
-            int hours = Integer.parseInt(timeArr[0]);
-            int minutes = Integer.parseInt(timeArr[1]);
+            hours = Integer.parseInt(timeArr[0]);
+            minutes = Integer.parseInt(timeArr[1]);
             if (hours < 0 || hours > 23)
                 throw new NumberFormatException();
             if (minutes < 0 || minutes > 59)
@@ -83,10 +85,14 @@ public class CreateBookingActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "Please provide a valid time.", Toast.LENGTH_SHORT).show();
             return;
         }
-        bookingInformation.put("creator", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+
+        List<String> involvedUsers = new ArrayList<>();
+        involvedUsers.add(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+        involvedUsers.add(listing.getOwner());
+        bookingInformation.put("involvedUsers", involvedUsers);
         bookingInformation.put("listing", listing.getId());
-        bookingInformation.put("time", timeString);
-        bookingInformation.put("date", datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear());
+        bookingInformation.put("date", new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), hours, minutes).getTime());
+        bookingInformation.put("dateCreated", Calendar.getInstance().getTime());
         bookingInformation.put("description", descriptionEt.getText().toString());
 
         final DocumentReference newDocument = db.collection("bookings").document();

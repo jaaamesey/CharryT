@@ -9,7 +9,7 @@ import java.util.Date;
 @Parcel
 public class Listing {
     private String id;
-    private User owner; // User that created the listing
+    private String ownerId; // User that created the listing
     private String title;
     private String description;
     private Date postDate; // The date the listing was posted
@@ -24,12 +24,12 @@ public class Listing {
         this.id = id;
     }
 
-    public User getCreator() {
-        return owner;
+    public String getOwner() {
+        return ownerId;
     }
 
-    public void setCreator(User owner) {
-        this.owner = owner;
+    public void setOwner(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getTitle() {

@@ -14,21 +14,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 import com.group5.charryt.data.Listing;
-import com.group5.charryt.data.User;
 import com.group5.charryt.ui.components.ListingView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
-import javax.annotation.Nullable;
 
 public class ViewListingsFragment extends Fragment {
 
@@ -46,7 +41,7 @@ public class ViewListingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.view_listings_fragment, container, false);
-        loadingText = view.findViewById(R.id.loading_text);
+        loadingText = view.findViewById(R.id.loadingText);
         listingsVBox = view.findViewById(R.id.listings_vbox);
         refreshLayout = view.findViewById(R.id.refreshLayout);
 
@@ -91,7 +86,6 @@ public class ViewListingsFragment extends Fragment {
                     // Update listings array
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Listing listing = document.toObject(Listing.class);
-                        //Utils.showDialog(listing.getCreator().getEmailAddress());
                         listing.setId(document.getId());
                         listings.add(listing);
                     }
