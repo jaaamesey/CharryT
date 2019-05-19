@@ -1,134 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create Account"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorBlack"/>
-
-        <TextView
-            android:id="@+id/textView3"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20sp"
-            android:text="I am a:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <Spinner
-            android:id="@+id/userTypeSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/user_types" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Account"
+                android:textColor="@color/colorBlack"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/firstNameTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="20sp"
-            android:text="First Name:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
-        <EditText
-            android:id="@+id/firstNameEt"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:inputType="textPersonName"
-            tools:targetApi="o" />
-        
-        
-        <TextView
-            android:id="@+id/lastNameTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="Last Name:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
-        <EditText
-            android:id="@+id/lastNameEt"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:inputType="textPersonName"
-            tools:targetApi="o" />
-        
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="Email:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
-        <EditText
-            android:id="@+id/emailEt"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:autofillHints=""
-            android:inputType="textEmailAddress"
-            tools:targetApi="o" />
-        
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="Password:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
-        <EditText
-            android:id="@+id/passwordEt"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:inputType="textPassword"
-            tools:targetApi="o" />
-        
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="Confirm Password:"
-            android:textColor="@color/colorBlack"
-            tools:targetApi="o" />
-        <EditText
-            android:id="@+id/passwordConfirmEt"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:inputType="textPassword"
-            tools:targetApi="o" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20sp"
+                android:text="I am a:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
 
-        <TextView
-            android:id="@+id/feedbackTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/colorBlack"/>
+            <Spinner
+                android:id="@+id/userTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/user_types" />
 
-        <Button
-            android:id="@+id/registerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Register"
-            android:layout_gravity="center"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/firstNameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="20sp"
+                android:text="First Name:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/firstNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:inputType="textPersonName"
+                tools:targetApi="o" />
+
+
+            <TextView
+                android:id="@+id/lastNameTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Last Name:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/lastNameEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:inputType="textPersonName"
+                tools:targetApi="o" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Email:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/emailEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:autofillHints=""
+                android:inputType="textEmailAddress"
+                tools:targetApi="o" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Password:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/passwordEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:inputType="textPassword"
+                tools:targetApi="o" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="Confirm Password:"
+                android:textColor="@color/colorBlack"
+                tools:targetApi="o" />
+
+            <EditText
+                android:id="@+id/passwordConfirmEt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:inputType="textPassword"
+                tools:targetApi="o" />
+
+            <TextView
+                android:id="@+id/feedbackTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/colorBlack" />
+
+            <Button
+                android:id="@+id/registerBtn"
+                android:layout_width="112dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Register" />
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
