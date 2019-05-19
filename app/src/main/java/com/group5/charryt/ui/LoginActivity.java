@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         assert document != null;
-                        if(document.exists()) {
+                        if (document.exists()) {
                             Intent main = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(main);
                             finish();

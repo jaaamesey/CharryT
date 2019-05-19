@@ -72,7 +72,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.CreateDonationListingActivity"
+            android:name=".ui.CreateListingActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.CreateRequestListingActivity"

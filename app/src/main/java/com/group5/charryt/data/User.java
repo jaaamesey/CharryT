@@ -7,11 +7,15 @@ import org.parceler.Parcel;
 @SuppressWarnings("WeakerAccess")
 @Parcel
 public class User {
+    private static User currentUser;
+
     private UserType userType = UserType.Donor; // User type is donor by default
 
+    private String id;
     private String emailAddress;
     private String firstName;
     private String lastName;
+    private String name = ""; // Only used for charities
 
     public User(String emailAddress, String fName, String lName, UserType userType) {
         this.emailAddress = emailAddress;
@@ -29,6 +33,27 @@ public class User {
         this.lastName = lName;
     }
 
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public void setUserType(UserType userType) {
+        this.userType = userType;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
     public enum UserType {
         Donor,
         Charity
@@ -38,6 +63,14 @@ public class User {
 
     }
 
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser) {
+        User.currentUser = currentUser;
+    }
 
     public String getEmailAddress() {
         return emailAddress;
@@ -64,6 +97,8 @@ public class User {
     }
 
     public String getName() {
+        if (!name.equals(""))
+            return name;
         return (getFirstName() + " " + getLastName()).trim();
     }
 

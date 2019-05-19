@@ -60,7 +60,7 @@ public class DetailedListingActivity extends AppCompatActivity {
         // Feed text views data from the listing
         listingNameTv.setText(listing.getTitle());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
-        datePostedTv.setText("Date posted: " + dateFormat.format(listing.getPostDate()));
+        datePostedTv.setText("Posted by " + listing.getOwner().getName() + ", " + dateFormat.format(listing.getPostDate()));
         descriptionTv.setText(listing.getDescription());
 
         // Set action bar title to name of the listing

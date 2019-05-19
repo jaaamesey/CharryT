@@ -19,12 +19,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
+import com.group5.charryt.data.User;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class CreateDonationListingActivity extends AppCompatActivity {
+public class CreateListingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
@@ -35,7 +36,7 @@ public class CreateDonationListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_donation_listing);
+        setContentView(R.layout.create_listing);
         final Context context = this; // Stored for inner classes
 
         // Add back button to action bar (for some reason called the "home" button
@@ -43,7 +44,7 @@ public class CreateDonationListingActivity extends AppCompatActivity {
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        actionBar.setTitle("Create Donation Listing");
+        actionBar.setTitle("Add a listing");
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -71,7 +72,8 @@ public class CreateDonationListingActivity extends AppCompatActivity {
                 data.put("title", title);
                 data.put("description", description);
                 data.put("postDate", Calendar.getInstance().getTime());
-                data.put("owner", user.getUid());
+                data.put("owner", User.getCurrentUser());
+                data.put("type", User.getCurrentUser().getUserType());
 
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);

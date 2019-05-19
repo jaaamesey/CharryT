@@ -24,6 +24,7 @@ import com.group5.charryt.ui.components.ListingView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 public class ViewListingsFragment extends Fragment {
 
@@ -85,9 +86,14 @@ public class ViewListingsFragment extends Fragment {
                     listingsVBox.removeAllViews();
                     // Update listings array
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Listing listing = document.toObject(Listing.class);
-                        listing.setId(document.getId());
-                        listings.add(listing);
+                        try {
+                            Listing listing = document.toObject(Listing.class);
+                            listing.setId(document.getId());
+                            listings.add(listing);
+                        }
+                        catch (RuntimeException exception) {
+                            Utils.showDialog("Invalid listing: " + document.getId() + "\n" + exception.toString());
+                        }
                     }
                     // Sort listings array from newest to oldest (descending)
                     listings.sort(new Comparator<Listing>() {

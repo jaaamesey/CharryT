@@ -15,14 +15,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
+import com.group5.charryt.data.User;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     public static MainActivity mainActivity = null;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
+
     // UI components
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -42,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user == null)
             goToActivity(LoginActivity.class);
 
@@ -60,6 +74,37 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        navigationMenu.add("Please wait...");
+        String message = "Logging in as " + Objects.requireNonNull(mAuth.getCurrentUser()).getEmail() + ", please wait...";
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+
+        CollectionReference usersCollection = db.collection("users");
+        assert user != null;
+        usersCollection.document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                User currentUser = Objects.requireNonNull(task.getResult()).toObject(User.class);
+                assert currentUser != null;
+                currentUser.setId(user.getUid());
+                User.setCurrentUser(currentUser);
+                init();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Utils.showDialog("Failed to connect to server: " + e.toString());
+            }
+        });
+
+
+    }
+
+    public void init() {
+        navigationMenu.clear();
+
         // Load dashboard on startup
         swapFragment(new DashboardFragment());
 
@@ -68,14 +113,12 @@ public class MainActivity extends AppCompatActivity {
         lastSelectedNavMenuItem = dashboardMenuItem;
 
         // Add items to nav menu here. Remember to actually implement them down below.
-        navigationMenu.add("Add donation listing");
-        navigationMenu.add("Add request listing");
         navigationMenu.add("View listings");
-        navigationMenu.add("History");
+        navigationMenu.add("Add a listing");
         navigationMenu.add("MapsActivity");
         navigationMenu.add("View bookings");
-        navigationMenu.add("Login");
         navigationMenu.add("Profile Details");
+        navigationMenu.add("Login");
         navigationMenu.add("Register");
         navigationMenu.add("Fortnite");
 
@@ -119,14 +162,8 @@ public class MainActivity extends AppCompatActivity {
                             case "Register":
                                 goToActivity(RegisterActivity.class);
                                 break;
-                            case "Add donation listing":
-                                goToActivity(CreateDonationListingActivity.class);
-                                break;
-                            case "Add request listing":
-                                goToActivity(CreateRequestListingActivity.class);
-                                break;
-                            case "Create booking":
-                                goToActivity(CreateBookingActivity.class);
+                            case "Add a listing":
+                                goToActivity(CreateListingActivity.class);
                                 break;
                             case "MapsActivity":
                                 goToActivity(MapsActivity.class);
@@ -140,9 +177,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
-        
-
     }
 
     public void goToActivity(Class activityClass) {
