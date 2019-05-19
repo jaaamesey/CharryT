@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -15,11 +16,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 import com.group5.charryt.data.Listing;
+import com.group5.charryt.data.User;
 import com.group5.charryt.ui.components.ListingView;
 
 import java.util.ArrayList;
@@ -36,20 +39,48 @@ public class ViewListingsFragment extends Fragment {
     private TextView loadingText;
     private LinearLayout listingsVBox;
     private SwipeRefreshLayout refreshLayout;
+    private RadioGroup radioGroup;
+
+    private User.UserType desiredType = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.view_listings_fragment, container, false);
+        final View view = inflater.inflate(R.layout.view_listings_fragment, container, false);
         loadingText = view.findViewById(R.id.loadingText);
         listingsVBox = view.findViewById(R.id.listings_vbox);
         refreshLayout = view.findViewById(R.id.refreshLayout);
+        radioGroup = view.findViewById(R.id.radioGroup);
 
         // Allow refreshing of the page when scrolly refresh thing is pulled
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                refreshListings();
+            }
+        });
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                int buttonIndex = radioGroup.indexOfChild(view.findViewById(i));
+                switch (buttonIndex) {
+                    // All listings
+                    case 0:
+                        desiredType = null;
+                        break;
+                    // Charity listings
+                    case 1:
+                        desiredType = User.UserType.Charity;
+                        break;
+                    // Donor listings
+                    case 2:
+                        desiredType = User.UserType.Donor;
+                        break;
+                }
+                listingsVBox.removeAllViews();
+                loadingText.setVisibility(View.VISIBLE);
                 refreshListings();
             }
         });
@@ -70,7 +101,12 @@ public class ViewListingsFragment extends Fragment {
 
     private void refreshListings() {
         CollectionReference listingsCollection = db.collection("listings");
-        listingsCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        Query query = listingsCollection;
+        // If desired type isn't null, filter by it.
+        if (desiredType != null)
+            query = listingsCollection.whereEqualTo("type", desiredType.toString());
+        // Finally perform the query
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (!task.isSuccessful() || task.getResult() == null) {

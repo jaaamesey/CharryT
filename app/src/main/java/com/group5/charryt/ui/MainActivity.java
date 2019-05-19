@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FrameLayout fragmentHolder;
     private MenuItem dashboardMenuItem;
+    private TextView loadingText;
 
     private MenuItem lastSelectedNavMenuItem = null;
     private Fragment currentFragment = null;
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate references to UI components
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawer_layout);
+        loadingText = findViewById(R.id.loadingText);
         navigationMenu = navigationView.getMenu();
 
         toolbar = findViewById(R.id.toolbar);
@@ -104,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void init() {
         navigationMenu.clear();
-
+        loadingText.setVisibility(View.INVISIBLE);
         // Load dashboard on startup
         swapFragment(new DashboardFragment());
 

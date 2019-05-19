@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.group5.charryt.R;
 import com.group5.charryt.data.Booking;
 import com.group5.charryt.data.Listing;
+import com.group5.charryt.data.User;
 import com.group5.charryt.ui.DetailedListingActivity;
 
 import org.parceler.Parcels;
@@ -56,7 +57,14 @@ public class BookingView extends View {
             v.setId(generateViewId());
         }
 
-        descriptionTextView.setText(booking.getDate().toString() + "\n\n" + booking.getDescription());
+        String userString = "INVALID USER";
+        for (User user : booking.getInvolvedUsers()) {
+            if (!user.getId().equals(User.getCurrentUser().getId())) {
+                userString = user.getName();
+                break;
+            }
+        }
+        descriptionTextView.setText(userString + "\n\n" + booking.getDate().toString() + "\n\n" + booking.getDescription());
         titleTextView.setText(booking.getListing().getTitle());
     }
 

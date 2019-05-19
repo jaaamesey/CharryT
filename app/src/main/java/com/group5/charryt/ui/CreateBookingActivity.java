@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
 import com.group5.charryt.data.Listing;
+import com.group5.charryt.data.User;
 
 import org.parceler.Parcels;
 
@@ -86,10 +87,16 @@ public class CreateBookingActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> involvedUsers = new ArrayList<>();
-        involvedUsers.add(Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
-        involvedUsers.add(listing.getOwner().getId());
+        List<User> involvedUsers = new ArrayList<>();
+        involvedUsers.add(User.getCurrentUser());
+        involvedUsers.add(listing.getOwner());
+
+        List<String> involvedUserIds = new ArrayList<>();
+        involvedUserIds.add(User.getCurrentUser().getId());
+        involvedUserIds.add(listing.getOwner().getId());
+
         bookingInformation.put("involvedUsers", involvedUsers);
+        bookingInformation.put("involvedUserIds", involvedUserIds);
         bookingInformation.put("listing", listing);
         bookingInformation.put("date", new GregorianCalendar(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), hours, minutes).getTime());
         bookingInformation.put("dateCreated", Calendar.getInstance().getTime());

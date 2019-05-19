@@ -10,6 +10,7 @@ import java.util.Date;
 public class Listing {
     private String id;
     private User owner; // User that created the listing
+    private User.UserType type;
     private String title;
     private String description;
     private Date postDate; // The date the listing was posted
@@ -72,4 +73,11 @@ public class Listing {
         this.tags = tags;
     }
 
+    public User.UserType getType() {
+        return type;
+    }
+
+    public void setType(User.UserType type) {
+        this.type = type;
+    }
 }

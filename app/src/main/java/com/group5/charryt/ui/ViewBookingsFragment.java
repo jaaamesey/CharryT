@@ -76,7 +76,7 @@ public class ViewBookingsFragment extends Fragment {
 
     private void refreshBookings() {
         CollectionReference bookingsCollection = db.collection("bookings");
-        Query query = bookingsCollection.whereArrayContains("involvedUsers", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+        Query query = bookingsCollection.whereArrayContains("involvedUserIds", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

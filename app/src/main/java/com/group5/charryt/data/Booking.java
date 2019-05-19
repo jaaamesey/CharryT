@@ -4,12 +4,12 @@ package com.group5.charryt.data;
 import java.util.Date;
 import java.util.List;
 
-@SuppressWarnings("WeakerAccess")
 public class Booking {
     private String id;
     private Date date;
     private Date dateCreated;
-    private List<String> involvedUsers;
+    private List<User> involvedUsers;
+    private List<String> involvedUserIds;
     private String description;
     private Listing listing;
 
@@ -21,11 +21,11 @@ public class Booking {
         this.listing = listing;
     }
 
-    public List<String> getInvolvedUsers() {
+    public List<User> getInvolvedUsers() {
         return involvedUsers;
     }
 
-    public void setInvolvedUsers(List<String> users) {
+    public void setInvolvedUsers(List<User> users) {
         this.involvedUsers = users;
     }
 
@@ -60,5 +60,13 @@ public class Booking {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<String> getInvolvedUserIds() {
+        return involvedUserIds;
+    }
+
+    public void setInvolvedUserIds(List<String> involvedUserIds) {
+        this.involvedUserIds = involvedUserIds;
     }
 }

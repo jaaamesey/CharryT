@@ -38,7 +38,6 @@ public class ListingView extends View {
     private Fragment currentFragment;
 
     public ListingView(final Context context, ViewGroup parent, final Listing listing) {
-
         super(context);
         final View view = inflate(context, R.layout.listing_view, parent);
         linearLayout = view.findViewById(R.id.linear_layout);
