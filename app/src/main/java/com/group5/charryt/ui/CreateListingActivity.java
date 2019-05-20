@@ -36,15 +36,11 @@ import com.group5.charryt.Utils;
 import com.group5.charryt.data.User;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import id.zelory.compressor.Compressor;
 
 public class CreateListingActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -59,6 +55,7 @@ public class CreateListingActivity extends AppCompatActivity {
     private Button uploadImageButton;
 
     private String listingPath = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
