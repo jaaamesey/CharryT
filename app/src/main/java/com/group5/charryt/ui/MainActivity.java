@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        if (mAuth.getCurrentUser() == null) {
+            goToActivity(LoginActivity.class);
+            finish();
+            return;
+        }
         navigationMenu.add("Please wait...");
         String message = "Logging in as " + Objects.requireNonNull(mAuth.getCurrentUser()).getEmail() + ", please wait...";
         Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();

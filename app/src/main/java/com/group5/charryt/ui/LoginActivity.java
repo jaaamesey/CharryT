@@ -53,8 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (email.isEmpty() || password.isEmpty())
                     return;
                 getUser(email, password);
-                uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
-                updateDetails();
+
             }
         });
 
@@ -81,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
+                        if (task.isSuccessful()) {
+                            uid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                            updateDetails();
                             return;
                         } else {
                             firstNameTxt.setTextColor(Color.RED);
@@ -98,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         assert document != null;
                         if (document.exists()) {
