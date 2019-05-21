@@ -42,6 +42,7 @@
                 android:paddingEnd="10sp"
                 android:saveEnabled="false"
                 android:text="@string/placeholder_title"
+                android:textColor="@color/darkGrey"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -59,6 +60,7 @@
                 android:paddingEnd="10sp"
                 android:saveEnabled="false"
                 android:text="@string/placeholder_description"
+                android:textColor="@color/lighterDarkGrey"
                 android:textSize="14sp" />
         </LinearLayout>
 

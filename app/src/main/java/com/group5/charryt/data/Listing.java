@@ -16,7 +16,7 @@ public class Listing {
     private Date postDate; // The date the listing was posted
     private Date endDate; // The date the listing expires
     private ArrayList<String> tags = new ArrayList<>();
-    private String listingPath;
+    private String imagePath;
 
     public String getId(){
         return id;
@@ -82,11 +82,11 @@ public class Listing {
         this.type = type;
     }
 
-    public String getListingPath() {
-        return listingPath;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setListingPath(String listingPath) {
-        this.listingPath = listingPath;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

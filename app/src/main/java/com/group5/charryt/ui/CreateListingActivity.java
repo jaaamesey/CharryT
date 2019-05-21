@@ -3,9 +3,6 @@ package com.group5.charryt.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapRegionDecoder;
-import android.graphics.Rect;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,7 +51,7 @@ public class CreateListingActivity extends AppCompatActivity {
     private EditText descriptionInput;
     private Button uploadImageButton;
 
-    private String listingPath = "";
+    private String imagePath = "";
 
 
     @Override
@@ -109,7 +106,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 data.put("postDate", Calendar.getInstance().getTime());
                 data.put("owner", User.getCurrentUser());
                 data.put("type", User.getCurrentUser().getUserType());
-                data.put("listingPath", listingPath);
+                data.put("imagePath", imagePath);
 
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);
@@ -156,7 +153,7 @@ public class CreateListingActivity extends AppCompatActivity {
                         submitButton.setEnabled(true);
                         uploadImageButton.setEnabled(true);
 
-                        listingPath = taskSnapshot.getMetadata().getPath();
+                        imagePath = taskSnapshot.getMetadata().getPath();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -185,6 +182,8 @@ public class CreateListingActivity extends AppCompatActivity {
 
     private byte[] compressImage(Uri uri) throws IOException {
         // Some crazy compression stuff here
+        // Basically this forces the image to be no more than 800 pixels on its largest side,
+        // and then compresses it
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
         ByteArrayOutputStream fileOutputStream = new ByteArrayOutputStream();
 
@@ -198,7 +197,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
         }
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 35, fileOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 42, fileOutputStream);
         return fileOutputStream.toByteArray();
     }
 

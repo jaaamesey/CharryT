@@ -1,27 +1,24 @@
 package com.group5.charryt.ui;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.group5.charryt.R;
+import com.group5.charryt.data.ImageCache;
 import com.group5.charryt.data.Listing;
 
 import org.parceler.Parcels;
@@ -67,7 +64,32 @@ public class DetailedListingActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle(listing.getTitle());
 
         // Set image
-        imageView.setImageResource(R.drawable.test);
+        // Handle getting image
+        if (listing.getImagePath() != null && !listing.getImagePath().isEmpty()) {
+            // If image already exists in the cache, grab the image from the cache instead of downloading it.
+            Bitmap imageFromCache = ImageCache.getImage(listing.getImagePath());
+            if (imageFromCache != null) {
+                imageView.setImageBitmap(imageFromCache);
+            }
+
+            // If image doesn't exist in cache, download it from server.
+            else {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(listing.getImagePath());
+
+                storageReference.getBytes(2048 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                    @Override
+                    public void onComplete(@NonNull Task<byte[]> task) {
+                        Bitmap image = BitmapFactory.decodeByteArray(task.getResult(), 0, task.getResult().length);
+                        imageView.setImageBitmap(image);
+                        ImageCache.addImage(listing.getImagePath(), image);
+                    }
+                });
+            }
+        }
+        // Otherwise, if there is no image, shrink the view so no space is wasted.
+        else {
+            imageView.setVisibility(View.GONE);
+        }
 
         makeBookingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
