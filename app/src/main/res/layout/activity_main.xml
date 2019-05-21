@@ -13,19 +13,19 @@
         android:layout_height="match_parent" />
 
 
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fff"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/force_noto_dark">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
+            android:theme="@style/force_noto_dark"
+            app:popupTheme="@style/force_noto"
             app:title="Loading..." />
 
         <FrameLayout
@@ -58,7 +58,8 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         android:fitsSystemWindows="true"
-        android:paddingTop="70dp">
+        android:paddingTop="70dp"
+        android:theme="@style/force_noto">
         <!-- To add stuff to nav drawer, just adjust the paddingTop of NavigationView and add it as a child. -->
         <TextView
             android:layout_width="match_parent"
@@ -66,6 +67,7 @@
             android:layout_marginTop="-50dp"
             android:layout_marginBottom="-40dp"
             android:background="@color/colorPrimaryDark"
+            android:fontFamily="@font/noto"
             android:paddingLeft="12dp"
             android:paddingTop="10dp"
             android:paddingRight="12dp"

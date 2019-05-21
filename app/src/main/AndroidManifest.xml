@@ -36,7 +36,8 @@
         <activity
             android:name=".ui.MapsActivity"
             android:configChanges="orientation|screenSize"
-            android:label="CharryT" />
+            android:label="CharryT"
+            android:theme = "@style/AppThemeForceNoto"/>
 
         <activity
             android:name=".ui.MainActivity"
@@ -73,14 +74,19 @@
         </activity>
         <activity
             android:name=".ui.CreateListingActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:theme = "@style/AppThemeForceNoto"
+            />
+
         <activity
             android:name=".ui.CreateRequestListingActivity"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.CreateBookingActivity"
-            android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.DetailedListingActivity" />
+            android:configChanges="orientation|screenSize"
+            android:theme = "@style/AppThemeForceNoto"/>
+        <activity android:name=".ui.DetailedListingActivity"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>
