@@ -1,11 +1,15 @@
 package com.group5.charryt.ui;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -116,6 +120,7 @@ public class DetailedListingActivity extends AppCompatActivity {
             imageView.setVisibility(View.GONE);
         }
 
+        final DetailedListingActivity self = this;
         // Set mapView stuff if location is given
         if (listing.isLocationProvided()) {
             mapView.onCreate(savedInstanceState);
@@ -128,7 +133,15 @@ public class DetailedListingActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    // Update the location and zoom
+                    // Try to set starting location to wherever user is
+                    try {
+                        LocationManager lm = (LocationManager) getSystemService(LOCATION_SERVICE);
+                        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+                    } catch (SecurityException ignored) {
+                        ActivityCompat.requestPermissions(self, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                    }
+
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(listing.getLatitude(), listing.getLongitude()), 10);
                     map.animateCamera(cameraUpdate);
 

@@ -1,9 +1,11 @@
 package com.group5.charryt.ui;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialise maps stuff here to prevent having to do it later
         try {
             MapsInitializer.initialize(getBaseContext());
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
