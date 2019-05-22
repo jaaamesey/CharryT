@@ -48,7 +48,6 @@ public class BookingView extends View {
     private Booking booking;
 
     public BookingView(final Context context, ViewGroup parent, final Booking booking) {
-
         super(context);
         final View view = inflate(context, R.layout.booking_view, parent);
         linearLayout = view.findViewById(R.id.linear_layout);
@@ -105,8 +104,6 @@ public class BookingView extends View {
     }
 
     private void onBookingLongClicked() {
-        // Get reference to self for inner classes
-        final BookingView self = this;
         // Create a YES/NO dialog for booking cancellation/deletion
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
 

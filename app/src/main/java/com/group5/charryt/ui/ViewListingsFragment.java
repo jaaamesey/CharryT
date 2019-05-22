@@ -99,7 +99,7 @@ public class ViewListingsFragment extends Fragment {
         refreshListings();
     }
 
-    private void refreshListings() {
+    public void refreshListings() {
         CollectionReference listingsCollection = db.collection("listings");
         Query query = listingsCollection;
         // If desired type isn't null, filter by it.

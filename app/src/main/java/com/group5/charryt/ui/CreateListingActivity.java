@@ -114,8 +114,12 @@ public class CreateListingActivity extends AppCompatActivity {
                 postListingTask.addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful())
+                        if (task.isSuccessful()) {
+                            String message = "Successfully created listing.";
+                            Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                            refreshParent();
                             finish();
+                        }
                         else {
                             submitButton.setEnabled(true);
                             String err = String.valueOf(task.getException());
@@ -199,6 +203,18 @@ public class CreateListingActivity extends AppCompatActivity {
 
         bitmap.compress(Bitmap.CompressFormat.JPEG, 42, fileOutputStream);
         return fileOutputStream.toByteArray();
+    }
+
+    private void refreshParent() {
+        try {
+            if (MainActivity.mainActivity.getCurrentFragment().getClass() != ViewListingsFragment.class)
+                return;
+            ViewListingsFragment listingsFragment = (ViewListingsFragment) MainActivity.mainActivity.getCurrentFragment();
+            listingsFragment.refreshListings();
+        }
+        catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
     }
 
     @Override

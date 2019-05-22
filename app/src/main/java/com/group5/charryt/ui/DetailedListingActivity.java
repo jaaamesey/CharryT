@@ -1,29 +1,39 @@
 package com.group5.charryt.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.group5.charryt.R;
 import com.group5.charryt.data.ImageCache;
 import com.group5.charryt.data.Listing;
+import com.group5.charryt.data.User;
+import com.group5.charryt.ui.components.BookingView;
 
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -91,15 +101,79 @@ public class DetailedListingActivity extends AppCompatActivity {
             imageView.setVisibility(View.GONE);
         }
 
+        // The make booking button changes to a delete button if the listing is owned by the user.
+        if (User.getCurrentUser().getId().equals(listing.getOwner().getId()))
+            makeBookingBtn.setText("Delete listing");
+
+
         makeBookingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // If the make booking button is a delete button, open the deletion dialog.
+                if (User.getCurrentUser().getId().equals(listing.getOwner().getId())) {
+                    onDeletePressed();
+                    return;
+                }
+
                 CreateBookingActivity item = new CreateBookingActivity();
                 Intent intent = new Intent(DetailedListingActivity.this, item.getClass());
                 intent.putExtra("listing", Parcels.wrap(listing));
                 startActivity(intent);
             }
         });
+    }
+
+    private void onDeletePressed() {
+        // Create a YES/NO dialog for listing deletion
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm deletion");
+        builder.setMessage("Delete this listing?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                // Delete the listing
+                DocumentReference docRef = db.collection("listings").document(listing.getId());
+                docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getBaseContext(), "Listing successfully deleted.", Toast.LENGTH_SHORT).show();
+                        refreshParent();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getBaseContext(), "Error deleting listing.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void refreshParent() {
+        try {
+            ViewListingsFragment listingsFragment = (ViewListingsFragment) MainActivity.mainActivity.getCurrentFragment();
+            listingsFragment.refreshListings();
+        }
+        catch (Exception e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
     }
 
     @Override
