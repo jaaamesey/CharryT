@@ -76,7 +76,7 @@ public class ViewBookingsFragment extends Fragment {
 
     }
 
-    private void refreshBookings() {
+    public void refreshBookings() {
         CollectionReference bookingsCollection = db.collection("bookings");
         Query query = bookingsCollection.whereArrayContains("involvedUserIds", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -152,7 +152,7 @@ public class ViewBookingsFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
         );
-        params.setMargins(39, 40, 40, 44);
+        params.setMargins(39, 40, 40, 40);
 
         TextView spacer = new TextView(getContext());
         spacer.setText(text);

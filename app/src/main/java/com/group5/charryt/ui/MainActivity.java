@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView loadingText;
 
     private MenuItem lastSelectedNavMenuItem = null;
+
     private Fragment currentFragment = null;
 
     @Override
@@ -277,6 +278,14 @@ public class MainActivity extends AppCompatActivity {
         Utils.showDialog(str, this);
     }
 
+
+    public Fragment getCurrentFragment() {
+        return currentFragment;
+    }
+
+    public void setCurrentFragment(Fragment currentFragment) {
+        this.currentFragment = currentFragment;
+    }
 }
 
 //YEET TEST COMMENT - VONG
