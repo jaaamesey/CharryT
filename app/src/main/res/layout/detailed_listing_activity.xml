@@ -51,24 +51,11 @@
         android:layout_marginBottom="10dp"
         android:textSize="18dp"/>
 
-        <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:text="Location:"
-        android:textSize="20dp"
-        android:textColor="@color/colorBlack"/>
-
-    <TextView
-        android:id="@+id/locationPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
-        android:text="map can be added here once location for listing is functional"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textColor="@color/colorBlack"/>
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:visibility="visible" />
 
         <Button
             android:id="@+id/makeBookingBtn"

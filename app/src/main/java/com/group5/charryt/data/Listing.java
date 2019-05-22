@@ -17,6 +17,10 @@ public class Listing {
     private Date endDate; // The date the listing expires
     private ArrayList<String> tags = new ArrayList<>();
     private String imagePath;
+    private boolean locationProvided = false;
+    private String locationString = "";
+    private double latitude;
+    private double longitude;
 
     public String getId(){
         return id;
@@ -88,5 +92,37 @@ public class Listing {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public boolean isLocationProvided() {
+        return locationProvided;
+    }
+
+    public void setLocationProvided(boolean locationProvided) {
+        this.locationProvided = locationProvided;
+    }
+
+    public String getLocationString() {
+        return locationString;
+    }
+
+    public void setLocationString(String locationString) {
+        this.locationString = locationString;
     }
 }

@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -113,6 +114,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void init() {
+        // Initialise maps stuff here to prevent having to do it later
+        try {
+            MapsInitializer.initialize(getBaseContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         navigationMenu.clear();
         loadingText.setVisibility(View.INVISIBLE);
         // Load dashboard on startup

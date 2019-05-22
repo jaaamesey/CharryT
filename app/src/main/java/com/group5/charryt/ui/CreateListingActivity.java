@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.icu.util.Calendar;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -36,6 +38,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -48,8 +52,8 @@ public class CreateListingActivity extends AppCompatActivity {
 
     private Button submitButton;
     private EditText titleInput;
-    private EditText descriptionInput;
-    private Button uploadImageButton;
+    private EditText descriptionInput, locationInput;
+    private Button uploadImageButton, checkLocationButton;
 
     private String imagePath = "";
 
@@ -73,8 +77,10 @@ public class CreateListingActivity extends AppCompatActivity {
 
         titleInput = findViewById(R.id.title_input);
         descriptionInput = findViewById(R.id.description_input);
+        locationInput = findViewById(R.id.location_input);
         submitButton = findViewById(R.id.submit_donation_listing_button);
         uploadImageButton = findViewById(R.id.uploadImageBtn);
+        checkLocationButton = findViewById(R.id.checkLocation);
 
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +92,7 @@ public class CreateListingActivity extends AppCompatActivity {
         });
 
         submitButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 FirebaseUser user = mAuth.getCurrentUser();
@@ -108,6 +115,22 @@ public class CreateListingActivity extends AppCompatActivity {
                 data.put("type", User.getCurrentUser().getUserType());
                 data.put("imagePath", imagePath);
 
+                if (!locationInput.getText().toString().isEmpty()) {
+                    Address location = getLocation();
+                    if (location == null) {
+                        String message = "Invalid location.";
+                        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    data.put("locationProvided", true);
+                    data.put("latitude", location.getLatitude());
+                    data.put("longitude", location.getLongitude());
+
+                    String locationString = getLocationString(location);
+
+                    data.put("locationString", locationString);
+                }
+
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);
 
@@ -119,8 +142,7 @@ public class CreateListingActivity extends AppCompatActivity {
                             Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
                             refreshParent();
                             finish();
-                        }
-                        else {
+                        } else {
                             submitButton.setEnabled(true);
                             String err = String.valueOf(task.getException());
                             Utils.showDialog("Submission error: " + err, context);
@@ -129,6 +151,47 @@ public class CreateListingActivity extends AppCompatActivity {
                 });
             }
         });
+
+        checkLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Address location = getLocation();
+                if (location != null)
+                    Toast.makeText(getBaseContext(), getLocationString(location), Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    @NonNull
+    private String getLocationString(Address location) {
+        if (location == null)
+            return "";
+        StringBuilder locationString = new StringBuilder();
+        String line = "";
+        int index = 0;
+        while (line != null && index < 10) {
+            locationString.append(line);
+            line = location.getAddressLine(index);
+            index++;
+        }
+        return locationString.toString();
+    }
+
+    private Address getLocation() {
+        Geocoder geocoder = new Geocoder(getBaseContext(), Locale.getDefault());
+
+        List<Address> addresses;
+        try {
+            Toast.makeText(getBaseContext(), "Parsing location...", Toast.LENGTH_SHORT).show();
+            addresses = geocoder.getFromLocationName(locationInput.getText().toString().trim(), 1);
+            return addresses.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Location parse failed.", Toast.LENGTH_SHORT).show();
+        }
+
+        return null;
     }
 
     @Override
@@ -176,8 +239,7 @@ public class CreateListingActivity extends AppCompatActivity {
                     }
                 });
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
             submitButton.setEnabled(true);
             uploadImageButton.setEnabled(true);
@@ -194,9 +256,9 @@ public class CreateListingActivity extends AppCompatActivity {
         if (bitmap.getWidth() > 800) {
             float aspectRatio = (float) bitmap.getHeight() / (float) bitmap.getWidth();
             if (aspectRatio > 1)
-                bitmap = Bitmap.createScaledBitmap(bitmap, (int)(800 / aspectRatio), 800, true);
+                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (800 / aspectRatio), 800, true);
             else {
-                bitmap = Bitmap.createScaledBitmap(bitmap, 800, (int)(aspectRatio * 800), true);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 800, (int) (aspectRatio * 800), true);
             }
 
         }
@@ -211,8 +273,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 return;
             ViewListingsFragment listingsFragment = (ViewListingsFragment) MainActivity.mainActivity.getCurrentFragment();
             listingsFragment.refreshListings();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }

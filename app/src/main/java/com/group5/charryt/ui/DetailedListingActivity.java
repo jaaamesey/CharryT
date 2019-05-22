@@ -16,6 +16,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,7 +36,6 @@ import com.group5.charryt.R;
 import com.group5.charryt.data.ImageCache;
 import com.group5.charryt.data.Listing;
 import com.group5.charryt.data.User;
-import com.group5.charryt.ui.components.BookingView;
 
 import org.parceler.Parcels;
 
@@ -38,10 +45,13 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class DetailedListingActivity extends AppCompatActivity {
-    private TextView listingNameTv, datePostedTv, descriptionTv, locationPlaceholder;
+    private TextView listingNameTv, datePostedTv, descriptionTv;
     private ImageView imageView;
     private Button makeBookingBtn;
+    private MapView mapView;
+
     private Listing listing;
+    private GoogleMap map;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +68,8 @@ public class DetailedListingActivity extends AppCompatActivity {
         datePostedTv = findViewById(R.id.datePostedTv);
         descriptionTv = findViewById(R.id.descriptionTv);
         makeBookingBtn = findViewById(R.id.makeBookingBtn);
-        locationPlaceholder = findViewById(R.id.locationPlaceholder);
         imageView = findViewById(R.id.imageView);
+        mapView = findViewById(R.id.mapView);
 
         // Get listing from parcel in extra data
         listing = Parcels.unwrap(getIntent().getParcelableExtra("listing"));
@@ -68,7 +78,10 @@ public class DetailedListingActivity extends AppCompatActivity {
         listingNameTv.setText(listing.getTitle());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
         datePostedTv.setText("Posted by " + listing.getOwner().getName() + ", " + dateFormat.format(listing.getPostDate()));
-        descriptionTv.setText(listing.getDescription());
+        String descriptionText = listing.getDescription();
+        if (listing.isLocationProvided())
+            descriptionText += "\n\nLocation: " + listing.getLocationString();
+        descriptionTv.setText(descriptionText);
 
         // Set action bar title to name of the listing
         Objects.requireNonNull(getSupportActionBar()).setTitle(listing.getTitle());
@@ -84,6 +97,7 @@ public class DetailedListingActivity extends AppCompatActivity {
 
             // If image doesn't exist in cache, download it from server.
             else {
+                imageView.setVisibility(View.INVISIBLE);
                 StorageReference storageReference = FirebaseStorage.getInstance().getReference().child(listing.getImagePath());
 
                 storageReference.getBytes(2048 * 1024).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -91,6 +105,7 @@ public class DetailedListingActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<byte[]> task) {
                         Bitmap image = BitmapFactory.decodeByteArray(task.getResult(), 0, task.getResult().length);
                         imageView.setImageBitmap(image);
+                        imageView.setVisibility(View.VISIBLE);
                         ImageCache.addImage(listing.getImagePath(), image);
                     }
                 });
@@ -99,6 +114,34 @@ public class DetailedListingActivity extends AppCompatActivity {
         // Otherwise, if there is no image, shrink the view so no space is wasted.
         else {
             imageView.setVisibility(View.GONE);
+        }
+
+        // Set mapView stuff if location is given
+        if (listing.isLocationProvided()) {
+            mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    map = googleMap;
+                    try {
+                        MapsInitializer.initialize(getBaseContext());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    // Update the location and zoom
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(listing.getLatitude(), listing.getLongitude()), 10);
+                    map.animateCamera(cameraUpdate);
+
+                    MarkerOptions marker = new MarkerOptions();
+                    marker.position(new LatLng(listing.getLatitude(), listing.getLongitude()));
+                    googleMap.addMarker(marker);
+
+                    // Disable all gestures on the map
+                    map.getUiSettings().setAllGesturesEnabled(false);
+                }
+            });
+        } else {
+            mapView.setVisibility(View.GONE);
         }
 
         // The make booking button changes to a delete button if the listing is owned by the user.
@@ -121,6 +164,44 @@ public class DetailedListingActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        if (listing.isLocationProvided()) {
+            try {
+                mapView.onResume();
+            } catch (Exception ignored) {
+
+            }
+        }
+
+
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (listing.isLocationProvided()) {
+            try {
+                mapView.onDestroy();
+            } catch (Exception ignored) {
+
+            }
+        }
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        if (listing.isLocationProvided()) {
+            try {
+                mapView.onLowMemory();
+            } catch (Exception ignored) {
+
+            }
+        }
     }
 
     private void onDeletePressed() {
