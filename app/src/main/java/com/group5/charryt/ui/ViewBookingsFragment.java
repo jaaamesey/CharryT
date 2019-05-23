@@ -3,8 +3,6 @@ package com.group5.charryt.ui;
 import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FontRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.res.ResourcesCompat;
@@ -92,6 +90,7 @@ public class ViewBookingsFragment extends Fragment {
                 // and stuff like that.
                 try {
                     upcomingBookings.clear();
+                    pastBookings.clear();
                     bookingsLayout.removeAllViews();
                     // Update listings array
                     for (QueryDocumentSnapshot document : task.getResult()) {
