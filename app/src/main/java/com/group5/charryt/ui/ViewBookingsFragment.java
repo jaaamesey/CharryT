@@ -56,7 +56,7 @@ public class ViewBookingsFragment extends Fragment {
         main.setToolbarText("Bookings");
 
         refreshLayout = view.findViewById(R.id.refreshLayout);
-        bookingsLayout = view.findViewById(R.id.bookingsLayout);
+        bookingsLayout = view.findViewById(R.id.usersLayout);
         loadingTv = view.findViewById(R.id.loadingText);
 
         mAuth = FirebaseAuth.getInstance();

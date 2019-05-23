@@ -80,6 +80,11 @@
             />
 
         <activity
+            android:name=".ui.UserProfileActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppThemeForceNoto" />
+
+        <activity
             android:name=".ui.CreateRequestListingActivity"
             android:configChanges="orientation|screenSize" />
         <activity

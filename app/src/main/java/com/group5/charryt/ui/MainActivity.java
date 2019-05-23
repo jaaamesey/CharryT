@@ -134,10 +134,11 @@ public class MainActivity extends AppCompatActivity {
         lastSelectedNavMenuItem = dashboardMenuItem;
 
         // Add items to nav menu here. Remember to actually implement them down below.
-        navigationMenu.add("View listings");
         navigationMenu.add("Add a listing");
-        navigationMenu.add("MapsActivity");
+        navigationMenu.add("View listings");
         navigationMenu.add("View bookings");
+        navigationMenu.add("View users");
+        navigationMenu.add("MapsActivity");
         navigationMenu.add("Profile Details");
         navigationMenu.add("Login");
         navigationMenu.add("Register");
@@ -172,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "View bookings":
                                 swapFragment(new ViewBookingsFragment());
+                                setChecked(menuItem);
+                                break;
+                            case "View users":
+                                swapFragment(new ViewUsersFragment());
                                 setChecked(menuItem);
                                 break;
                             case "Login":

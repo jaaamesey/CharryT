@@ -9,11 +9,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="50dp"
         android:text="@string/loading"
         android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,11 +27,9 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:dividerPadding="20sp"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -57,47 +54,13 @@
                         android:visibility="visible" />
                 </LinearLayout>
 
-                <RadioGroup
-                    android:id="@+id/radioGroup"
+                <LinearLayout
+                    android:id="@+id/users_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="4sp"
-                    android:layout_marginBottom="4sp"
-                    android:checkedButton="@id/all_listings"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/all_listings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="All listings" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Charity listings" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Donor listings" />
-
-                </RadioGroup>
-
-                <LinearLayout
-                    android:id="@+id/listings_vbox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:dividerPadding="20sp"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"></LinearLayout>
             </LinearLayout>
-
         </ScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>

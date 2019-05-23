@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/listingNameTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="undefined"
+                android:textSize="36sp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginBottom="2.5dp" />
+
+            <TextView
+                android:id="@+id/descriptionTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:textColor="@color/colorBlack"
+                android:text="template description"
+                android:layout_marginBottom="10dp"
+                android:textSize="18dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
