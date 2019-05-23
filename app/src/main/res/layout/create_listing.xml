@@ -58,6 +58,26 @@
                 tools:targetApi="o" />
 
             <TextView
+                android:id="@+id/tv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tags (separated by commas)"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/tags_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:gravity="start|top"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                tools:ignore="LabelFor"
+                tools:targetApi="o" />
+
+            <TextView
                 android:id="@+id/tv235"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,12 +104,6 @@
                 android:layout_weight="1"
                 android:gravity="end"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/checkLocation"

@@ -36,6 +36,7 @@ import com.group5.charryt.data.User;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class CreateListingActivity extends AppCompatActivity {
 
     private Button submitButton;
     private EditText titleInput;
-    private EditText descriptionInput, locationInput;
+    private EditText descriptionInput, locationInput, tagsInput;
     private Button uploadImageButton, checkLocationButton;
 
     private String imagePath = "";
@@ -78,9 +79,11 @@ public class CreateListingActivity extends AppCompatActivity {
         titleInput = findViewById(R.id.title_input);
         descriptionInput = findViewById(R.id.description_input);
         locationInput = findViewById(R.id.location_input);
+        tagsInput = findViewById(R.id.tags_input);
         submitButton = findViewById(R.id.submit_donation_listing_button);
         uploadImageButton = findViewById(R.id.uploadImageBtn);
         checkLocationButton = findViewById(R.id.checkLocation);
+
 
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +118,7 @@ public class CreateListingActivity extends AppCompatActivity {
                 data.put("type", User.getCurrentUser().getUserType());
                 data.put("imagePath", imagePath);
 
+                // If location is provided, try to parse it and add to the data
                 if (!locationInput.getText().toString().isEmpty()) {
                     Address location = getLocation();
                     if (location == null) {
@@ -130,6 +134,16 @@ public class CreateListingActivity extends AppCompatActivity {
 
                     data.put("locationString", locationString);
                 }
+
+                // Get tags from string input
+                String[] tagsStrArr = tagsInput.getText().toString().split(",");
+                ArrayList<String> tags = new ArrayList<>();
+                for (String tag : tagsStrArr) {
+                    tag = tag.trim().toLowerCase();
+                    tags.add(tag);
+                }
+
+                data.put("tags", tags);
 
                 submitButton.setEnabled(false);
                 Task<DocumentReference> postListingTask = db.collection("listings").add(data);
