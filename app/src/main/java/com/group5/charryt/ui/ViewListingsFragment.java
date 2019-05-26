@@ -7,9 +7,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +44,9 @@ public class ViewListingsFragment extends Fragment {
     private LinearLayout listingsVBox;
     private SwipeRefreshLayout refreshLayout;
     private RadioGroup radioGroup;
+    private EditText searchBar;
+    private Button searchBtn;
+    private String searchInput;
 
     private User.UserType desiredType = null;
 
@@ -52,6 +59,8 @@ public class ViewListingsFragment extends Fragment {
         listingsVBox = view.findViewById(R.id.listings_vbox);
         refreshLayout = view.findViewById(R.id.refreshLayout);
         radioGroup = view.findViewById(R.id.radioGroup);
+        searchBar = view.findViewById(R.id.searchBar);
+        searchBtn = view.findViewById(R.id.searchButton);
 
         // Allow refreshing of the page when scrolly refresh thing is pulled
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -81,6 +90,15 @@ public class ViewListingsFragment extends Fragment {
                 }
                 listingsVBox.removeAllViews();
                 loadingText.setVisibility(View.VISIBLE);
+                searchInput = searchBar.getText().toString().toLowerCase();
+                refreshListings();
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchInput = searchBar.getText().toString().toLowerCase();
                 refreshListings();
             }
         });
@@ -100,11 +118,13 @@ public class ViewListingsFragment extends Fragment {
     }
 
     public void refreshListings() {
+        searchInput = searchBar.getText().toString().toLowerCase();
         CollectionReference listingsCollection = db.collection("listings");
         Query query = listingsCollection;
         // If desired type isn't null, filter by it.
-        if (desiredType != null)
+        if (desiredType != null) {
             query = listingsCollection.whereEqualTo("type", desiredType.toString());
+        }
         // Finally perform the query
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -124,8 +144,14 @@ public class ViewListingsFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         try {
                             Listing listing = document.toObject(Listing.class);
+//                            listing.setTitle(document.getString("title"));
                             listing.setId(document.getId());
-                            listings.add(listing);
+                            if(searchInput != null) {
+                                if(listing.getTitle().toLowerCase().contains(searchInput))
+                                    listings.add(listing);
+                            } else {
+                                listings.add(listing);
+                            }
                         }
                         catch (RuntimeException exception) {
                             Utils.showDialog("Invalid listing: " + document.getId() + "\n" + exception.toString());
@@ -148,8 +174,9 @@ public class ViewListingsFragment extends Fragment {
                 } catch (NullPointerException nullPointerException) {
                     System.out.println("ERROR: " + nullPointerException);
                 }
-
                 refreshLayout.setRefreshing(false);
+                if(listings.isEmpty())
+                    loadingText.setText("No listings found.");
             }
         });
     }

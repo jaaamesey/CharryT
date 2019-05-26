@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailEt, passwordEt;
     private TextView firstNameTxt, lastNameTxt;
     private Button loginBtn, registerBtn;
-    private String uid = "1231231";
+    private String uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     private void updateDetails() {
