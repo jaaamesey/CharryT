@@ -144,7 +144,6 @@ public class ViewListingsFragment extends Fragment {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         try {
                             Listing listing = document.toObject(Listing.class);
-//                            listing.setTitle(document.getString("title"));
                             listing.setId(document.getId());
                             if(searchInput != null) {
                                 if(listing.getTitle().toLowerCase().contains(searchInput))
