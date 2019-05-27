@@ -19,7 +19,7 @@
                     android:text="First Name:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20pt"/>
-                <TextView
+                <EditText
                     android:id="@+id/firstNameTxt"
 
                     android:layout_width="wrap_content"
@@ -33,13 +33,31 @@
                     android:text="Last Name:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20pt"/>
-                <TextView
+                <EditText
                     android:id="@+id/lastNameTxt"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:textSize="20pt"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Type:"
+                    android:textSize="20pt"
+                    android:textColor="@color/colorBlack"/>
+                <TextView
+                    android:id="@+id/userType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:textSize="20pt"
+                    android:textColor="@color/colorBlack"/>
+                <Button
+                    android:id="@+id/editDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Details"/>
 
         </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,7 +21,11 @@ import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 
 public class ProfileFragment extends Fragment {
-    private TextView firstNameTxt, lastNameTxt;
+    private EditText firstNameTxt, lastNameTxt;
+    private TextView userType;
+    private Button editDetails;
+    private FirebaseUser user;
+    private FirebaseFirestore db;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,15 +37,19 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         firstNameTxt = getView().findViewById(R.id.firstNameTxt);
         lastNameTxt = getView().findViewById(R.id.lastNameTxt);
+        userType = getView().findViewById(R.id.userType);
+        editDetails = getView().findViewById(R.id.editDetails);
+        firstNameTxt.setInputType(0);
+        lastNameTxt.setInputType(0);
         MainActivity main = (MainActivity) getActivity();
         assert main != null;
         main.setToolbarText("Profile Details");
         try {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            user = FirebaseAuth.getInstance().getCurrentUser();
             if (user == null) {
                 firstNameTxt.setText("No user logged in");
             } else {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db = FirebaseFirestore.getInstance();
 
                 DocumentReference docRef = db.collection("users").document(user.getUid());
                 docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -51,14 +61,40 @@ public class ProfileFragment extends Fragment {
                             if (document.exists()) {
                                 firstNameTxt.setText(document.getString("firstName"));
                                 lastNameTxt.setText(document.getString("lastName"));
+                                if(document.getString("userType") != null)
+                                    userType.setText(document.getString("userType"));
                             }
                         }
                     }
                 });
             }
-        } catch(Exception e){
+        } catch(Exception e) {
             e.printStackTrace();
         }
+
+        editDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String state = editDetails.getText().toString();
+                if(state.equals("Edit Details")){
+                    firstNameTxt.setInputType(1);
+                    lastNameTxt.setInputType(1);
+                    editDetails.setText("Make Changes");
+                } else {
+                    firstNameTxt.setInputType(0);
+                    lastNameTxt.setInputType(0);
+                    String newFirstName = firstNameTxt.getText().toString();
+                    String newLastName = lastNameTxt.getText().toString();
+                    DocumentReference docRef = db.collection("users").document(user.getUid());
+                    docRef.update("firstName", newFirstName);
+                    docRef.update("lastName", newLastName);
+                    editDetails.setText("Edit Details");
+                }
+
+            }
+        });
     }
+
+
 
 }
