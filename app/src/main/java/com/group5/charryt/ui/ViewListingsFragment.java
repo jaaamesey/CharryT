@@ -146,7 +146,7 @@ public class ViewListingsFragment extends Fragment {
                             Listing listing = document.toObject(Listing.class);
                             listing.setId(document.getId());
                             if(searchInput != null) {
-                                if(listing.getTitle().toLowerCase().contains(searchInput))
+                                if(listing.getTitle().toLowerCase().contains(searchInput) || listing.getTags().contains(searchInput.toLowerCase()))
                                     listings.add(listing);
                             } else {
                                 listings.add(listing);

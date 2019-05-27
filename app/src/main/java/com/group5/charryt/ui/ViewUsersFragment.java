@@ -7,6 +7,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,9 +37,11 @@ public class ViewUsersFragment extends Fragment {
     private ArrayList<User> users = new ArrayList<>();
 
     private TextView loadingText;
+    private EditText searchBar;
+    private Button searchButton;
     private LinearLayout usersVBox;
     private SwipeRefreshLayout refreshLayout;
-
+    private String input = null;
     private User.UserType desiredType = null;
 
     @Override
@@ -48,7 +52,8 @@ public class ViewUsersFragment extends Fragment {
         loadingText = view.findViewById(R.id.loadingText);
         usersVBox = view.findViewById(R.id.users_layout);
         refreshLayout = view.findViewById(R.id.refreshLayout);
-
+        searchBar = view.findViewById(R.id.searchBar);
+        searchButton = view.findViewById(R.id.searchBtn);
         // Allow refreshing of the page when scrolly refresh thing is pulled
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -57,6 +62,12 @@ public class ViewUsersFragment extends Fragment {
             }
         });
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshUsers();
+            }
+        });
 
         return view;
     }
@@ -76,7 +87,7 @@ public class ViewUsersFragment extends Fragment {
         CollectionReference usersCollection = db.collection("users");
         // do something with the query and don't just show all users, hint hint search box
         Query query = usersCollection;
-
+        input = searchBar.getText().toString().toLowerCase();
         // Finally perform the query
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -97,7 +108,21 @@ public class ViewUsersFragment extends Fragment {
                         try {
                             User user = document.toObject(User.class);
                             user.setId(document.getId());
-                            users.add(user);
+                            if(input != null) {
+                                if(user.getFirstName() != null && user.getLastName() != null) {
+                                    if (user.getFirstName().toLowerCase().contains(input) || user.getLastName().toLowerCase().contains(input)) {
+                                        users.add(user);
+                                        continue;
+                                    }
+                                }
+                                if(user.getName() != null) {
+                                    if (user.getName().toLowerCase().contains(input)) {
+                                        users.add(user);
+                                        continue;
+                                    }
+                                }
+                            } else
+                                users.add(user);
                         } catch (RuntimeException exception) {
                             Utils.showDialog("Invalid listing: " + document.getId() + "\n" + exception.toString());
                         }

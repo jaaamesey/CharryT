@@ -35,15 +35,14 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
+        MainActivity main = Utils.getMainActivity(this);
+        main.setToolbarText("Profile Details");
         firstNameTxt = getView().findViewById(R.id.firstNameTxt);
         lastNameTxt = getView().findViewById(R.id.lastNameTxt);
         userType = getView().findViewById(R.id.userType);
         editDetails = getView().findViewById(R.id.editDetails);
         firstNameTxt.setInputType(0);
         lastNameTxt.setInputType(0);
-        MainActivity main = (MainActivity) getActivity();
-        assert main != null;
-        main.setToolbarText("Profile Details");
         try {
             user = FirebaseAuth.getInstance().getCurrentUser();
             if (user == null) {

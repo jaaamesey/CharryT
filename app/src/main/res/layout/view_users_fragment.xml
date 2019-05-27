@@ -42,11 +42,10 @@
                         android:id="@+id/searchBar"
                         android:layout_width="224dp"
                         android:layout_height="match_parent"
-                        android:singleLine="true"
-                        android:text="implement this plz" />
+                        android:singleLine="true" />
 
                     <Button
-                        android:id="@+id/searchButton"
+                        android:id="@+id/searchBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
