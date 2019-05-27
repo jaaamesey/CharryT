@@ -16,13 +16,6 @@
 
         <!--<include  layout="@layout/community_address_list" -->
         <!--android:id="@+id/community_address_list_id" />-->
-        <ListView
-            android:id="@+id/list_address"
-            android:layout_width="match_parent"
-            android:layout_height="171dp"
-            android:layout_weight="1">
-
-        </ListView>
 
 
         <fragment

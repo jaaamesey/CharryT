@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -51,7 +52,7 @@ import java.util.Objects;
 public class DetailedListingActivity extends AppCompatActivity {
     private TextView listingNameTv, datePostedTv, descriptionTv;
     private ImageView imageView;
-    private Button makeBookingBtn;
+    private Button makeBookingBtn, openGoogleMapsBtn;
     private MapView mapView;
 
     private Listing listing;
@@ -72,6 +73,7 @@ public class DetailedListingActivity extends AppCompatActivity {
         datePostedTv = findViewById(R.id.datePostedTv);
         descriptionTv = findViewById(R.id.descriptionTv);
         makeBookingBtn = findViewById(R.id.makeBookingBtn);
+        openGoogleMapsBtn = findViewById(R.id.googleMaps);
         imageView = findViewById(R.id.imageView);
         mapView = findViewById(R.id.mapView);
 
@@ -155,6 +157,7 @@ public class DetailedListingActivity extends AppCompatActivity {
             });
         } else {
             mapView.setVisibility(View.GONE);
+            openGoogleMapsBtn.setVisibility(View.GONE);
         }
 
         // The make booking button changes to a delete button if the listing is owned by the user.
@@ -175,6 +178,17 @@ public class DetailedListingActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailedListingActivity.this, item.getClass());
                 intent.putExtra("listing", Parcels.wrap(listing));
                 startActivity(intent);
+            }
+        });
+
+        openGoogleMapsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Creates an Intent that will load the listing's location in Google Maps
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + listing.getLocationString());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                startActivity(mapIntent);
             }
         });
     }

@@ -11,9 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +29,6 @@ import com.group5.charryt.ui.components.ListingView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 
 public class ViewListingsFragment extends Fragment {
 
@@ -53,6 +50,7 @@ public class ViewListingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.view_listings_fragment, container, false);
         loadingText = view.findViewById(R.id.loadingText);
@@ -117,7 +115,9 @@ public class ViewListingsFragment extends Fragment {
         refreshListings();
     }
 
+
     public void refreshListings() {
+        System.out.println("Refreshing listings.");
         searchInput = searchBar.getText().toString().toLowerCase();
         CollectionReference listingsCollection = db.collection("listings");
         Query query = listingsCollection;
@@ -145,7 +145,7 @@ public class ViewListingsFragment extends Fragment {
                         try {
                             Listing listing = document.toObject(Listing.class);
                             listing.setId(document.getId());
-                            if(searchInput != null) {
+                            if (searchInput != null && !searchInput.isEmpty()) {
                                 if(listing.getTitle().toLowerCase().contains(searchInput) || listing.getTags().contains(searchInput.toLowerCase()))
                                     listings.add(listing);
                             } else {

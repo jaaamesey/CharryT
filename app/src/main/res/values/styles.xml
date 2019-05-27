@@ -23,6 +23,7 @@
     </style>
 
     <style name="force_noto" parent="AppTheme.NoActionBar">
+        <item name="android:fontFamily">@font/noto</item>
     </style>
     <style name="force_noto_dark" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:fontFamily">@font/noto</item>

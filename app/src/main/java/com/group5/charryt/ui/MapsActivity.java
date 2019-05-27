@@ -11,10 +11,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -32,8 +28,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.group5.charryt.R;
+import com.group5.charryt.data.Listing;
 
-import java.util.ArrayList;
+import org.parceler.Parcels;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -54,49 +51,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maps_activity);
 
-
-        final ListView listview = findViewById(R.id.list_address);
-
-
-        String[] values = new String[] { "Community 1", "Community 2", "Community 3" };
-
-        final ArrayList<String> list = new ArrayList<>();
-
-        for (String value : values) {
-            boolean add = list.add(value);
-        }
-
-
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1
-                , list);
-        listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-
-                LatLng latLngtofocus = new LatLng(-33.879802, 151.187374);
-                mMap.addMarker(new MarkerOptions().position(latLngtofocus).title(" Community"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngtofocus, 17.0f));
-//                final String item = (String) parent.getItemAtPosition(position);
-//
-//
-//                view.animate().setDuration(2000).alpha(0)
-//                        .withEndAction(new Runnable() {
-//                            @Override
-//                            public void run() {
-////                                list.remove(item);
-//                                adapter.notifyDataSetChanged();
-//                                view.setAlpha(1);
-//                            }
-//                        });
-            }
-
-        });
+        LatLng latLngtofocus = new LatLng(-33.879802, 151.187374);
+        mMap.addMarker(new MarkerOptions().position(latLngtofocus).title(" Community"));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngtofocus, 17.0f));
 
 
         checkLocationPermission();
@@ -133,7 +90,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
+        Listing listing = Parcels.unwrap(getIntent().getParcelableExtra("listing"));
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,

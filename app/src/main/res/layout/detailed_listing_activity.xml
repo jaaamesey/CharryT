@@ -55,16 +55,28 @@
             android:id="@+id/mapView"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:clickable="true"
+            android:focusable="true"
             android:visibility="visible" />
 
         <Button
-            android:id="@+id/makeBookingBtn"
-            android:layout_width="wrap_content"
+            android:id="@+id/googleMaps"
+            android:layout_width="202dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Make Booking"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="0dp"
+            android:text="Open Google Maps" />
+
+        <Button
+            android:id="@+id/makeBookingBtn"
+            android:layout_width="159dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:text="Make Booking" />
+
 
     </LinearLayout>
 
