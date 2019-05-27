@@ -142,6 +142,8 @@ public class DetailedListingActivity extends AppCompatActivity {
                         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
                     } catch (SecurityException ignored) {
                         ActivityCompat.requestPermissions(self, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                    } catch (Exception e) {
+                        System.out.println(Arrays.toString(e.getStackTrace()));
                     }
 
                     CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(listing.getLatitude(), listing.getLongitude()), 10);
@@ -278,8 +280,7 @@ public class DetailedListingActivity extends AppCompatActivity {
         try {
             ViewListingsFragment listingsFragment = (ViewListingsFragment) MainActivity.mainActivity.getCurrentFragment();
             listingsFragment.refreshListings();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(Arrays.toString(e.getStackTrace()));
         }
     }
