@@ -61,21 +61,17 @@
         android:paddingTop="70dp"
         android:theme="@style/force_noto">
         <!-- To add stuff to nav drawer, just adjust the paddingTop of NavigationView and add it as a child. -->
-        <TextView
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_marginTop="-50dp"
             android:layout_marginBottom="-40dp"
             android:background="@color/colorPrimaryDark"
-            android:fontFamily="@font/noto"
-            android:paddingLeft="12dp"
+            android:paddingLeft="3dp"
             android:paddingTop="10dp"
             android:paddingRight="12dp"
-            android:text="@string/app_name"
-            android:textColor="@color/colorWhite"
-            android:textSize="36sp"
-            android:textStyle="italic"
-            app:fontFamily="sans-serif-light" />
+            android:scaleType="fitStart"
+            app:srcCompat="@drawable/logo_white" />
 
     </android.support.design.widget.NavigationView>
 
