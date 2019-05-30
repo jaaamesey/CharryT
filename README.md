@@ -1,8 +1,8 @@
 # CharryT - A mobile app connecting donors to charities.
 **NOTE: CharryT is nothing more than an assignment by a bunch of students. Do not expect this app to be maintained, or even function at all.**
 
-## How do I get it?
-Either compile the source code yourself, or download the app from the Google Play Store.
+## How do I install it?
+Either compile the source code yourself using Android Studio, or download the app from the Google Play Store.
 https://play.google.com/store/apps/details?id=com.group5.charryt&hl=en
 
 ## How do I use it?
