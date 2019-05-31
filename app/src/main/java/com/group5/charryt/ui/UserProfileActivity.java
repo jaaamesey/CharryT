@@ -1,9 +1,12 @@
 package com.group5.charryt.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.group5.charryt.R;
@@ -39,14 +42,23 @@ public class UserProfileActivity extends AppCompatActivity {
         // Feed text views data from the user
         nameTv.setText(user.getName());
 
-        String descriptionText = "Include a bunch of information in this string, " +
-                "including all of the user's past bookings. \n" +
-                "You'll have to connect to the database to do this. ";
+        String descriptionText = "";
 
         descriptionTv.setText(descriptionText);
 
         // Set action bar title to name of the user
         Objects.requireNonNull(getSupportActionBar()).setTitle(user.getName());
+
+        Button messageUserBtn = findViewById(R.id.messageUserBtn);
+        messageUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MessageActivity item = new MessageActivity();
+                Intent intent = new Intent(UserProfileActivity.this, item.getClass());
+                intent.putExtra("user", Parcels.wrap(user));
+                startActivity(intent);
+            }
+        });
 
     }
 

@@ -93,6 +93,7 @@
             android:theme = "@style/AppThemeForceNoto"/>
         <activity android:name=".ui.DetailedListingActivity"
             android:configChanges="orientation|screenSize"/>
+        <activity android:name=".ui.MessageActivity" />
     </application>
 
 </manifest>
