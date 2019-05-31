@@ -114,6 +114,19 @@ public class MessageActivity extends AppCompatActivity {
                         });
                         sendBtn.setEnabled(true);
 
+                        // Update each others' list of messaged users to have each other at the top
+                        db.collection("users").document(user.getId()).update("messagedUsers", FieldValue.arrayRemove(User.getCurrentUser())).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                db.collection("users").document(user.getId()).update("messagedUsers", FieldValue.arrayUnion(User.getCurrentUser()));
+                            }
+                        });
+                        db.collection("users").document(User.getCurrentUser().getId()).update("messagedUsers", FieldValue.arrayRemove(user)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                db.collection("users").document(User.getCurrentUser().getId()).update("messagedUsers", FieldValue.arrayUnion(user));
+                            }
+                        });
                     } else {
                         throw new Exception();
                     }

@@ -16,20 +16,26 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 import com.group5.charryt.data.User;
 import com.group5.charryt.ui.components.UserView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Nullable;
 
 // This code is literally just ViewListingsFragment with a couple of changes.
 // Look at ViewListingsFragment and ViewBookingsFragment to get an idea of how things are implemented.
-public class ViewUsersFragment extends Fragment {
+public class ViewMessagesFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -76,22 +82,29 @@ public class ViewUsersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         MainActivity main = (MainActivity) getActivity();
         assert main != null;
-        main.setToolbarText("Users");
+        main.setToolbarText("Messaged users");
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         refreshUsers();
+
+        db.collection("users").document(User.getCurrentUser().getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                refreshUsers();
+            }
+        });
     }
 
     public void refreshUsers() {
         CollectionReference usersCollection = db.collection("users");
         // do something with the query and don't just show all users, hint hint search box
-        Query query = usersCollection;
+        DocumentReference query = usersCollection.document(User.getCurrentUser().getId());
         input = searchBar.getText().toString().toLowerCase();
         // Finally perform the query
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        query.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (!task.isSuccessful() || task.getResult() == null) {
                     Utils.showDialog("ERROR: Could not access users: " + task.getException());
                     loadingText.setVisibility(View.INVISIBLE);
@@ -103,19 +116,33 @@ public class ViewUsersFragment extends Fragment {
                 try {
                     users.clear();
                     usersVBox.removeAllViews();
+                    if (!task.getResult().contains("messagedUsers")) {
+                        // Done
+                        loadingText.setVisibility(View.INVISIBLE);
+                        refreshLayout.setRefreshing(false);
+                        return;
+                    }
+
+                    ArrayList<User> messagedUsers = new ArrayList<>();
+                    for (HashMap<String, Object> hashMap : (List<HashMap<String, Object>>) task.getResult().get("messagedUsers")) {
+                        User user = new User();
+                        user.setId((String) hashMap.get("id"));
+                        user.setFirstName((String) hashMap.get("firstName"));
+                        user.setLastName((String) hashMap.get("lastName"));
+                        user.setName((String) hashMap.get("name"));
+                        messagedUsers.add(user);
+                    }
                     // Update users array
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+                    for (User user : messagedUsers) {
                         try {
-                            User user = document.toObject(User.class);
-                            user.setId(document.getId());
-                            if(input != null) {
-                                if(user.getFirstName() != null && user.getLastName() != null) {
+                            if (input != null) {
+                                if (user.getFirstName() != null && user.getLastName() != null) {
                                     if (user.getFirstName().toLowerCase().contains(input) || user.getLastName().toLowerCase().contains(input)) {
                                         users.add(user);
                                         continue;
                                     }
                                 }
-                                if(user.getName() != null) {
+                                if (user.getName() != null) {
                                     if (user.getName().toLowerCase().contains(input)) {
                                         users.add(user);
                                         continue;
@@ -124,13 +151,14 @@ public class ViewUsersFragment extends Fragment {
                             } else
                                 users.add(user);
                         } catch (RuntimeException exception) {
-                            Utils.showDialog("Invalid listing: " + document.getId() + "\n" + exception.toString());
+                            Utils.showDialog("Invalid user: " + exception.toString());
                         }
                     }
 
+                    Collections.reverse(users);
                     // Create new user views for the UI for each user (auto attached to usersVBox)
                     for (User user : users) {
-                        new UserView(getContext(), usersVBox, user, false);
+                        new UserView(getContext(), usersVBox, user, true);
                     }
 
                     // Done

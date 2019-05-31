@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         navigationMenu.add("Add a listing");
         navigationMenu.add("View listings");
         navigationMenu.add("View bookings");
+        navigationMenu.add("View messages");
         navigationMenu.add("View users");
         navigationMenu.add("Profile Details");
         navigationMenu.add("Login");
@@ -172,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case "View bookings":
                                 swapFragment(new ViewBookingsFragment());
+                                setChecked(menuItem);
+                                break;
+                            case "View messages":
+                                swapFragment(new ViewMessagesFragment());
                                 setChecked(menuItem);
                                 break;
                             case "View users":

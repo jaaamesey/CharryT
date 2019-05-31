@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.group5.charryt.R;
 import com.group5.charryt.data.User;
+import com.group5.charryt.ui.MessageActivity;
 import com.group5.charryt.ui.UserProfileActivity;
 
 import org.parceler.Parcels;
@@ -26,7 +27,7 @@ public class UserView extends View {
 
     private User user;
 
-    public UserView(final Context context, ViewGroup parent, final User user) {
+    public UserView(final Context context, ViewGroup parent, final User user, boolean skipToMessages) {
         super(context);
         final View view = inflate(context, R.layout.user_view, parent);
         linearLayout = view.findViewById(R.id.linear_layout);
@@ -37,17 +38,27 @@ public class UserView extends View {
         setTag(user);
         updateView(user);
 
-
-        ((CardView) linearLayout.getParent()).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UserProfileActivity item = new UserProfileActivity();
-                Intent viewItem = new Intent(getActivity(), item.getClass());
-                viewItem.putExtra("user", Parcels.wrap(user));
-                context.startActivity(viewItem);
-            }
-        });
-
+        if (skipToMessages) {
+            ((CardView) linearLayout.getParent()).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MessageActivity item = new MessageActivity();
+                    Intent viewItem = new Intent(getActivity(), item.getClass());
+                    viewItem.putExtra("user", Parcels.wrap(user));
+                    context.startActivity(viewItem);
+                }
+            });
+        } else {
+            ((CardView) linearLayout.getParent()).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UserProfileActivity item = new UserProfileActivity();
+                    Intent viewItem = new Intent(getActivity(), item.getClass());
+                    viewItem.putExtra("user", Parcels.wrap(user));
+                    context.startActivity(viewItem);
+                }
+            });
+        }
     }
 
     @UiThread
@@ -66,9 +77,11 @@ public class UserView extends View {
             v.setId(generateViewId());
         }
 
-        String descriptionText = "Someone please implement this";
-
-        descriptionTextView.setText(descriptionText);
+        if (user.getUserType() == User.UserType.Charity)
+            descriptionTextView.setText("Charity");
+        else {
+            descriptionTextView.setText("Donor");
+        }
 
         titleTextView.setText(user.getName());
 
