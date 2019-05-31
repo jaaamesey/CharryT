@@ -1,8 +1,9 @@
 package com.group5.charryt.data;
 
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
 import org.parceler.Parcel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("WeakerAccess")
 @Parcel
@@ -16,6 +17,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String name = ""; // Only used for charities
+    private List<User> messagedUsers = new ArrayList<>();
 
     public User(String emailAddress, String fName, String lName, UserType userType) {
         this.emailAddress = emailAddress;
@@ -51,6 +53,14 @@ public class User {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<User> getMessagedUsers() {
+        return messagedUsers;
+    }
+
+    public void setMessagedUsers(List<User> messagedUsers) {
+        this.messagedUsers = messagedUsers;
     }
 
 

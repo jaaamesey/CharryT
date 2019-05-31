@@ -69,6 +69,14 @@
             android:text="Open Google Maps" />
 
         <Button
+            android:id="@+id/sendMessageBtn"
+            android:layout_width="159dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:text="Send Message" />
+
+        <Button
             android:id="@+id/makeBookingBtn"
             android:layout_width="159dp"
             android:layout_height="wrap_content"

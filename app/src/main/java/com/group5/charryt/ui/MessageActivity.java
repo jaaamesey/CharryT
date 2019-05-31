@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,6 +38,7 @@ public class MessageActivity extends AppCompatActivity {
     private Button sendBtn;
     private TextView textView;
     private EditText textEdit;
+    private ScrollView scrollView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class MessageActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.sendBtn);
         textEdit = findViewById(R.id.sendText);
         textView = findViewById(R.id.msgTextView);
+        scrollView = findViewById(R.id.scroll);
 
         sendBtn.setEnabled(false);
 
@@ -103,6 +105,12 @@ public class MessageActivity extends AppCompatActivity {
                             output.append(msg + "\n\n");
                         }
                         textView.setText(output);
+                        scrollView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                scrollView.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
                         sendBtn.setEnabled(true);
 
                     } else {
@@ -113,13 +121,7 @@ public class MessageActivity extends AppCompatActivity {
                     HashMap<String, ArrayList<String>> messagesData = new HashMap<>();
                     messagesData.put("messages", new ArrayList<String>());
                     db.collection("messages").document(msgId)
-                            .set(messagesData)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    refreshMessages();
-                                }
-                            });
+                            .set(messagesData);
                 }
 
             }

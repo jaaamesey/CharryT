@@ -52,7 +52,7 @@ import java.util.Objects;
 public class DetailedListingActivity extends AppCompatActivity {
     private TextView listingNameTv, datePostedTv, descriptionTv;
     private ImageView imageView;
-    private Button makeBookingBtn, openGoogleMapsBtn;
+    private Button makeBookingBtn, openGoogleMapsBtn, sendMessageBtn;
     private MapView mapView;
 
     private Listing listing;
@@ -74,6 +74,7 @@ public class DetailedListingActivity extends AppCompatActivity {
         descriptionTv = findViewById(R.id.descriptionTv);
         makeBookingBtn = findViewById(R.id.makeBookingBtn);
         openGoogleMapsBtn = findViewById(R.id.googleMaps);
+        sendMessageBtn = findViewById(R.id.sendMessageBtn);
         imageView = findViewById(R.id.imageView);
         mapView = findViewById(R.id.mapView);
 
@@ -179,6 +180,16 @@ public class DetailedListingActivity extends AppCompatActivity {
                 CreateBookingActivity item = new CreateBookingActivity();
                 Intent intent = new Intent(DetailedListingActivity.this, item.getClass());
                 intent.putExtra("listing", Parcels.wrap(listing));
+                startActivity(intent);
+            }
+        });
+
+        sendMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MessageActivity item = new MessageActivity();
+                Intent intent = new Intent(DetailedListingActivity.this, item.getClass());
+                intent.putExtra("user", Parcels.wrap(listing.getOwner()));
                 startActivity(intent);
             }
         });
