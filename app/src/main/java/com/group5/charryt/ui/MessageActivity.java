@@ -39,6 +39,7 @@ public class MessageActivity extends AppCompatActivity {
     private TextView textView;
     private EditText textEdit;
     private ScrollView scrollView;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
         // Get user from parcel in extra data
-        User user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
+        user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         actionBar.setTitle("Message " + user.getName());
 
         if (user.getId().compareTo(User.getCurrentUser().getId()) > 0) {
@@ -121,7 +122,13 @@ public class MessageActivity extends AppCompatActivity {
                     HashMap<String, ArrayList<String>> messagesData = new HashMap<>();
                     messagesData.put("messages", new ArrayList<String>());
                     db.collection("messages").document(msgId)
-                            .set(messagesData);
+                            .set(messagesData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            db.collection("users").document(user.getId()).update("messagedUsers", FieldValue.arrayUnion(User.getCurrentUser()));
+                            db.collection("users").document(User.getCurrentUser().getId()).update("messagedUsers", FieldValue.arrayUnion(user));
+                        }
+                    });
                 }
 
             }
