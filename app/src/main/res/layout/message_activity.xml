@@ -21,7 +21,8 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/noto"
                 android:padding="10sp"
-                android:text="Loading messages..." />
+                android:text="Loading messages..."
+                android:textColor="@color/lighterDarkGrey" />
         </LinearLayout>
     </ScrollView>
 

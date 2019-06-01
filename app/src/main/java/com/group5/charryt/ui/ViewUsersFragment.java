@@ -78,6 +78,10 @@ public class ViewUsersFragment extends Fragment {
         assert main != null;
         main.setToolbarText("Users");
 
+        if (User.getCurrentUser().getUserType() == User.UserType.Donor) {
+            main.setToolbarText("Charities");
+        }
+
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         refreshUsers();
@@ -87,6 +91,9 @@ public class ViewUsersFragment extends Fragment {
         CollectionReference usersCollection = db.collection("users");
         // do something with the query and don't just show all users, hint hint search box
         Query query = usersCollection;
+        if (User.getCurrentUser().getUserType() == User.UserType.Donor) {
+            query = query.whereEqualTo("userType", User.UserType.Charity);
+        }
         input = searchBar.getText().toString().toLowerCase();
         // Finally perform the query
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

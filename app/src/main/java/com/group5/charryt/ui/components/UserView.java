@@ -36,7 +36,7 @@ public class UserView extends View {
 
         this.user = user;
         setTag(user);
-        updateView(user);
+        updateView(user, skipToMessages);
 
         if (skipToMessages) {
             ((CardView) linearLayout.getParent()).setOnClickListener(new OnClickListener() {
@@ -62,7 +62,7 @@ public class UserView extends View {
     }
 
     @UiThread
-    public void updateView(User user) {
+    public void updateView(User user, boolean skipToMessages) {
         // Bug fix for stupid fudging ID thing that doesn't make sense but shut up this was
         // the only way I could fix it, fight me.
         // This generates a unique ID for each item in the layout. Because of this, all UI
@@ -77,11 +77,17 @@ public class UserView extends View {
             v.setId(generateViewId());
         }
 
-        if (user.getUserType() == User.UserType.Charity)
-            descriptionTextView.setText("Charity");
-        else {
-            descriptionTextView.setText("Donor");
+        if (skipToMessages) {
+            // Email field is used here to store previous message data.
+            descriptionTextView.setText(user.getEmailAddress());
+        } else {
+            if (user.getUserType() == User.UserType.Charity)
+                descriptionTextView.setText("Charity");
+            else {
+                descriptionTextView.setText("Donor");
+            }
         }
+
 
         titleTextView.setText(user.getName());
 

@@ -136,9 +136,15 @@ public class MainActivity extends AppCompatActivity {
         // Add items to nav menu here. Remember to actually implement them down below.
         navigationMenu.add("Add a listing");
         navigationMenu.add("View listings");
-        navigationMenu.add("View bookings");
         navigationMenu.add("View messages");
-        navigationMenu.add("View users");
+        navigationMenu.add("View bookings");
+
+        if (User.getCurrentUser().getUserType() == User.UserType.Donor) {
+            navigationMenu.add("View charities");
+        } else {
+            navigationMenu.add("View users");
+        }
+
         navigationMenu.add("Profile Details");
         navigationMenu.add("Login");
         navigationMenu.add("Register");
@@ -180,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
                                 setChecked(menuItem);
                                 break;
                             case "View users":
+                                swapFragment(new ViewUsersFragment());
+                                setChecked(menuItem);
+                                break;
+                            case "View charities":
                                 swapFragment(new ViewUsersFragment());
                                 setChecked(menuItem);
                                 break;

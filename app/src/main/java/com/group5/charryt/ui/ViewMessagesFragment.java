@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,8 +29,8 @@ import com.group5.charryt.ui.components.UserView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.Comparator;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -82,13 +83,13 @@ public class ViewMessagesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         MainActivity main = (MainActivity) getActivity();
         assert main != null;
-        main.setToolbarText("Messaged users");
+        main.setToolbarText("Messages");
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         refreshUsers();
 
-        db.collection("users").document(User.getCurrentUser().getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        db.collection("messages").document(User.getCurrentUser().getId()).addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 refreshUsers();
@@ -97,7 +98,7 @@ public class ViewMessagesFragment extends Fragment {
     }
 
     public void refreshUsers() {
-        CollectionReference usersCollection = db.collection("users");
+        CollectionReference usersCollection = db.collection("messages");
         // do something with the query and don't just show all users, hint hint search box
         DocumentReference query = usersCollection.document(User.getCurrentUser().getId());
         input = searchBar.getText().toString().toLowerCase();
@@ -105,6 +106,7 @@ public class ViewMessagesFragment extends Fragment {
         query.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                loadingText.setVisibility(View.INVISIBLE);
                 if (!task.isSuccessful() || task.getResult() == null) {
                     Utils.showDialog("ERROR: Could not access users: " + task.getException());
                     loadingText.setVisibility(View.INVISIBLE);
@@ -116,21 +118,35 @@ public class ViewMessagesFragment extends Fragment {
                 try {
                     users.clear();
                     usersVBox.removeAllViews();
-                    if (!task.getResult().contains("messagedUsers")) {
-                        // Done
-                        loadingText.setVisibility(View.INVISIBLE);
-                        refreshLayout.setRefreshing(false);
-                        return;
-                    }
 
                     ArrayList<User> messagedUsers = new ArrayList<>();
-                    for (HashMap<String, Object> hashMap : (List<HashMap<String, Object>>) task.getResult().get("messagedUsers")) {
+                    final Map<String, Object> data = (task.getResult().getData());
+                    ArrayList<String> keys = new ArrayList<>();
+                    for (String key : task.getResult().getData().keySet()) {
+                        keys.add(key);
+                    }
+
+                    // Sort by date
+                    keys.sort(new Comparator<String>() {
+                        @Override
+                        public int compare(String a, String b) {
+                            Map<String, Object> a_data = (Map<String, Object>) data.get(a);
+                            Timestamp a_date = (Timestamp) a_data.get("date");
+
+                            Map<String, Object> b_data = (Map<String, Object>) data.get(b);
+                            Timestamp b_date = (Timestamp) b_data.get("date");
+                            return a_date.compareTo(b_date);
+                        }
+                    });
+
+                    for (String key : keys) {
                         User user = new User();
-                        user.setId((String) hashMap.get("id"));
-                        user.setFirstName((String) hashMap.get("firstName"));
-                        user.setLastName((String) hashMap.get("lastName"));
-                        user.setName((String) hashMap.get("name"));
+                        user.setId(key);
+                        Map<String, Object> messageData = (Map<String, Object>) data.get(key);
+                        user.setName((String) messageData.get("name"));
+                        user.setEmailAddress((String) messageData.get("text"));
                         messagedUsers.add(user);
+
                     }
                     // Update users array
                     for (User user : messagedUsers) {
