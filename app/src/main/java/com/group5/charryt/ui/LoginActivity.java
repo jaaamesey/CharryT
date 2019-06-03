@@ -99,8 +99,15 @@ public class LoginActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         assert document != null;
                         if (document.exists()) {
-                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(main);
+                            if (MainActivity.mainActivity != null)
+                                MainActivity.mainActivity.finish();
+
+                            Intent i = getBaseContext().getPackageManager().
+                                    getLaunchIntentForPackage(getBaseContext().getPackageName());
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            MainActivity.mainActivity.finish();
                             finish();
                         }
                     }

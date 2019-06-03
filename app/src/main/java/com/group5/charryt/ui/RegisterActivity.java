@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.group5.charryt.R;
-import com.group5.charryt.Utils;
 import com.group5.charryt.data.User.UserType;
 
 import java.util.HashMap;
@@ -71,12 +70,10 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (userType == UserType.Donor) {
                     firstNameTxt.setText("First Name:");
-                    lastNameTxt.setVisibility(View.VISIBLE);
-                    lastNameEt.setVisibility(View.VISIBLE);
+                    lastNameTxt.setText("Last Name: ");
                 } else if (userType == UserType.Charity) {
                     firstNameTxt.setText("Organisation Name:");
-                    lastNameTxt.setVisibility(View.INVISIBLE);
-                    lastNameEt.setVisibility(View.INVISIBLE);
+
                 }
             }
 

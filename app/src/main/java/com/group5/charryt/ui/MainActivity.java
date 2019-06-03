@@ -34,6 +34,7 @@ import com.group5.charryt.R;
 import com.group5.charryt.Utils;
 import com.group5.charryt.data.User;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -82,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
+        login();
+
+
+    }
+
+    public void login() {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
@@ -96,12 +104,12 @@ public class MainActivity extends AppCompatActivity {
 
         CollectionReference usersCollection = db.collection("users");
         assert user != null;
-        usersCollection.document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        usersCollection.document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 User currentUser = Objects.requireNonNull(task.getResult()).toObject(User.class);
                 assert currentUser != null;
-                currentUser.setId(user.getUid());
+                currentUser.setId(mAuth.getUid());
                 User.setCurrentUser(currentUser);
                 init();
             }
@@ -111,8 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 Utils.showDialog("Failed to connect to server: " + e.toString());
             }
         });
-
-
     }
 
     public void init() {
@@ -229,19 +235,24 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         // Remove previous fragment
-        if (currentFragment != null)
-            getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+        try {
+            if (currentFragment != null)
+                getSupportFragmentManager().beginTransaction().remove(currentFragment).commit();
+            // Murder "back stack" so shit doesn't overlap
+            // (why did this take me 45 minutes to figure out and why is this weird "back stack" thing
+            // not cleared in the first place what the actual hell google what is wrong with you)
+            fragmentManager.popBackStack();
+            transaction.addToBackStack(null);
+        } catch (IllegalStateException e) {
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
 
-        // Murder "back stack" so shit doesn't overlap
-        // (why did this take me 45 minutes to figure out and why is this weird "back stack" thing
-        // not cleared in the first place what the actual hell google what is wrong with you)
-        fragmentManager.popBackStack();
-        transaction.addToBackStack(null);
+
 
         // Add new fragment
         transaction.add(R.id.fragmentHolder, fragment);
 
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
         currentFragment = fragment;
     }
 
